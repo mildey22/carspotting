@@ -125,7 +125,7 @@ export default function CarList() {
                 style={styles.deleteButton}
                 onPress={() => deleteCar(item.key)}
               >
-                <Text style={styles.toggleButtonText}>Delete car</Text>
+                <Text style={styles.toggleButtonText}>Remove car</Text>
               </TouchableOpacity>
             </View>
           )}
