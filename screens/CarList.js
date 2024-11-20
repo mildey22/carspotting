@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+
 import { app } from "../firebaseConfig";
 import { getDatabase, ref, onValue } from "firebase/database";
 
@@ -14,6 +15,7 @@ export default function CarList() {
   const [cars, setCars] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(null); // Track which map is toggled
   const database = getDatabase(app);
+  const [loading, setLoading] = useState(true);
 
   // Fetch cars from Firebase Realtime Database
   useEffect(() => {
@@ -25,6 +27,7 @@ export default function CarList() {
       } else {
         setCars([]);
       }
+      setLoading(false);
     });
   }, []);
 
@@ -34,6 +37,9 @@ export default function CarList() {
 
   return (
     <View style={styles.container}>
+       {loading ? (
+        <Text style={styles.loadingText}>Loading cars...</Text>
+      ) : (
       <FlatList
         data={cars}
         renderItem={({ item, index }) => (
@@ -42,7 +48,7 @@ export default function CarList() {
               {item.make}
             </Text>
             <Text style={styles.text}>
-              {item.model}
+              {item.model}{" ("}{item.generation}{")"}
             </Text>
             <Text style={styles.text}>
               {item.color}
@@ -81,6 +87,7 @@ export default function CarList() {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
+      )}
     </View>
   );
 }
@@ -98,6 +105,11 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderRadius: 5,
     backgroundColor: "#f9f9f9",
+  },
+  loadingText: {
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: 20,
   },
   text: {
     fontSize: 16,
