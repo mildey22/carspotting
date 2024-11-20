@@ -9,6 +9,7 @@ import {
     Text,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import * as Location from 'expo-location';
 import { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import { app } from "../firebaseConfig";
@@ -32,7 +33,7 @@ export default function AddCar() {
   const database = getDatabase(app);
 
   const handleSave = () => {
-    if (car.make) {
+    if (car.color) {
       push(ref(database, "cars/"), car)
         .then(() => {
           Alert.alert("Success", "Car successfully saved.");
@@ -41,7 +42,6 @@ export default function AddCar() {
             make: "",
             model: "",
             color: "",
-            photo: null,
             location: {
               latitude: null,
               longitude: null,
@@ -52,7 +52,7 @@ export default function AddCar() {
           Alert.alert("Error", `Error while saving new car: ${error.message}`);
         });
     } else {
-      Alert.alert("Error", "Please input at least the make of the car.");
+      Alert.alert("Error", "Please input at least the color of the car.");
     }
   };
 
@@ -86,6 +86,33 @@ export default function AddCar() {
           onChangeText={(text) => setCar({ ...car, color: text })}
           placeholder="Enter color"
         />
+         <MapView
+          style={styles.map}
+          onPress={(e) =>
+            setCar({
+              ...car,
+              location: {
+                latitude: e.nativeEvent.coordinate.latitude,
+                longitude: e.nativeEvent.coordinate.longitude,
+              },
+            })
+          }
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          {car.location.latitude && car.location.longitude && (
+            <Marker
+              coordinate={{
+                latitude: car.location.latitude,
+                longitude: car.location.longitude,
+              }}
+            />
+          )}
+        </MapView>
         <Button title="Save" onPress={handleSave} />
     </View>
     </TouchableWithoutFeedback>
@@ -98,5 +125,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    padding: 10,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    width: "100%",
+  },
+  map: {
+    width: "100%",
+    height: 300,
+    marginBottom: 10,
   },
 });
