@@ -79,7 +79,8 @@ export default function AddCar() {
       });
 
       if (!imageResponse.canceled) {
-        const { uri, fileName } = imageResponse.assets[0];
+        const { uri } = imageResponse.assets[0];
+        const fileName = uri.split('/').pop();
         setCar((prevCar) => ({
           ...prevCar,
           image: { uri, name: fileName },
