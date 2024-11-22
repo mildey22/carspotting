@@ -1,8 +1,8 @@
 import { useState } from "react";
 import {
-  View,
+  TouchableOpacity,
   Text,
-  Button,
+  View,
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
@@ -14,6 +14,7 @@ import {
 
 import MapView, { Marker } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import styles from "../styles/AddCarStyles";
 import { app } from "../firebaseConfig";
@@ -92,7 +93,7 @@ export default function AddCar() {
         const fileName = uri.split("/").pop();
 
         // Display selected image immediately
-        setUploadedImageUrl(null); // Reset the image URL to ensure spinner shows up during upload
+        setUploadedImageUrl(null);
 
         // Upload image to Firebase
         const downloadUrl = await uploadImage(uri, fileName);
@@ -124,7 +125,7 @@ export default function AddCar() {
           style: "destructive",
           onPress: async () => {
             try {
-              setIsDeleting(true); // Set deleting to true
+              setIsDeleting(true);
 
               // Extract the image path from the full URL
               const imagePath = car.image.split("?")[0]; // Split off the query part
@@ -185,7 +186,7 @@ export default function AddCar() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.text}>What did you spot 👀</Text>
+        <Text style={styles.headline}>What did you spot today? 👀</Text>
         <TextInput
           value={car.make}
           onChangeText={(text) => setCar({ ...car, make: text })}
@@ -212,16 +213,26 @@ export default function AddCar() {
         />
 
         {/* Show the "Choose photo" button only if there's no image uploaded */}
-        {!uploadedImageUrl && (
-          <Button title="Choose photo" onPress={pickImage} />
+        {!uploadedImageUrl && !isUploading && (
+          <TouchableOpacity style={styles.iconButton} onPress={pickImage}>
+            <Ionicons name="images-outline" size={20} color="#fff" />
+            <Text style={styles.iconButtonText}>Choose photo</Text>
+          </TouchableOpacity>
         )}
 
-        {/* Show ActivityIndicator while uploading, hide the image */}
+        {uploadedImageUrl && !isUploading && !isDeleting && (
+          <TouchableOpacity style={styles.deleteButton} onPress={deleteImage}>
+            <Ionicons name="trash-outline" size={20} color="#fff" />
+            <Text style={styles.iconButtonText}>Remove photo</Text>
+          </TouchableOpacity>
+        )}
+
+        {/* Show ActivityIndicator while uploading*/}
         {isUploading && (
           <ActivityIndicator
             size="large"
             color="#0000ff"
-            style={{ marginTop: 10 }}
+            style={styles.loadingThrobber}
           />
         )}
 
@@ -229,22 +240,31 @@ export default function AddCar() {
         {uploadedImageUrl && !isUploading && (
           <Image
             source={{ uri: uploadedImageUrl }}
-            style={{ width: 100, height: 100, marginTop: 10 }}
+            style={{ width: 100, height: 100, marginTop: 10, marginBottom: 10 }}
           />
         )}
 
-        {uploadedImageUrl && !isUploading && !isDeleting && (
-          <Button title="Remove photo" onPress={deleteImage} />
-        )}
-
         {isDeleting && (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            style={styles.loadingThrobber}
+          />
         )}
 
-        <Button
-          title={showMap ? "Hide map" : "Add location"}
+        <TouchableOpacity
+          style={styles.iconButton}
           onPress={() => setShowMap(!showMap)}
-        />
+        >
+          <Ionicons
+            name={showMap ? "close" : "location-outline"}
+            size={20}
+            color="#fff"
+          />
+          <Text style={styles.iconButtonText}>
+            {showMap ? "Close map" : "Add location"}
+          </Text>
+        </TouchableOpacity>
 
         {showMap && (
           <MapView
@@ -259,8 +279,8 @@ export default function AddCar() {
               })
             }
             initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
+              latitude: 60.1699,
+              longitude: 24.9384,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
@@ -276,11 +296,18 @@ export default function AddCar() {
           </MapView>
         )}
 
-        <Button
-          title="Save car"
+        <TouchableOpacity
           onPress={handleSave}
-          disabled={isUploading || isDeleting} // Disable save button during upload or delete
-        />
+          style={[
+            styles.saveButton,
+            (isUploading || isDeleting) && styles.disabledButton,
+          ]}
+          // Disable the button if uploading or deleting
+          disabled={isUploading || isDeleting}
+        >
+          <Ionicons name="save-outline" size={20} color="#fff" />
+          <Text style={styles.saveButtonText}>Save car</Text>
+        </TouchableOpacity>
       </ScrollView>
     </TouchableWithoutFeedback>
   );

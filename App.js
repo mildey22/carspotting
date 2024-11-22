@@ -17,9 +17,9 @@ export default function App() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Add Car') {
+          if (route.name === 'Add car') {
             iconName = focused ? 'add-circle' : 'add-circle-outline';
-          } else if (route.name === 'Car List') {
+          } else if (route.name === 'Car list') {
             iconName = focused ? 'car-sport' : 'car-sport-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
@@ -28,8 +28,8 @@ export default function App() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}>
-        <Tab.Screen name="Add Car" component={AddCar}/>
-        <Tab.Screen name="Car List" component={CarList}/>
+        <Tab.Screen name="Add car" component={AddCar}/>
+        <Tab.Screen name="Car list" component={CarList}/>
         <Tab.Screen name="Settings" component={Settings}/>
       </Tab.Navigator>
       <StatusBar style="auto" />

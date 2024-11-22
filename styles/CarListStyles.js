@@ -23,6 +23,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
   },
+  imageText: {
+    fontSize: 16,
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  carText: {
+    fontSize: 22,
+    marginBottom: 5,
+    fontWeight: "bold",
+  },
   toggleButton: {
     marginBottom: 5,
     alignItems: "center",
@@ -32,6 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#007BFF",
   },
   deleteButton: {
+    flexDirection: 'row',
     marginBottom: 5,
     alignItems: "center",
     justifyContent: "center",
@@ -51,6 +62,34 @@ const styles = StyleSheet.create({
   carImage: {
     width: "100%",
     height: 200,
+    marginVertical: 10,
+  },
+  bigThrobber: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  iconButtonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  iconButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  loadingThrobber: {
+    alignSelf: 'center',
     marginVertical: 10,
   },
 });

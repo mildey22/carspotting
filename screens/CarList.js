@@ -7,10 +7,15 @@ import {
   Alert,
   Image,
   ActivityIndicator,
+  Linking,
 } from "react-native";
+
 import MapView, { Marker } from "react-native-maps";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 import styles from "../styles/CarListStyles";
 import { app } from "../firebaseConfig";
+
 import { getDatabase, ref, onValue, remove } from "firebase/database";
 
 export default function CarList() {
@@ -18,7 +23,7 @@ export default function CarList() {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [visibleImages, setVisibleImages] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const database = getDatabase(app);
 
   useEffect(() => {
@@ -50,56 +55,75 @@ export default function CarList() {
   };
 
   const deleteCar = (key) => {
-    Alert.alert(
-      "Confirm remove",
-      "Are you sure you want to remove this car?",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Remove",
-          style: "destructive",
-          onPress: () => {
-            const carRef = ref(database, `cars/${key}`);
-            remove(carRef)
-              .then(() => {
-                setCars((prevCars) => prevCars.filter((car) => car.key !== key));
-              })
-              .catch((error) => {
-                console.error("Error removing car:", error);
-              });
-          },
+    Alert.alert("Confirm remove", "Are you sure you want to remove this car?", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Remove",
+        style: "destructive",
+        onPress: () => {
+          const carRef = ref(database, `cars/${key}`);
+          remove(carRef)
+            .then(() => {
+              setCars((prevCars) => prevCars.filter((car) => car.key !== key));
+            })
+            .catch((error) => {
+              console.error("Error removing car:", error);
+            });
         },
-      ]
+      },
+    ]);
+  };
+
+  // Open the image URL in the browser
+  const handleImagePress = (url) => {
+    Linking.openURL(url).catch((err) =>
+      console.error("Failed to open URL", err)
     );
   };
 
   return (
     <View style={styles.container}>
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator
+          size="large"
+          color="#0000ff"
+          style={styles.bigThrobber}
+        />
       ) : cars.length === 0 ? (
-        <Text style={styles.loadingText}>No cars found! Time to go spotting? 👀</Text>
+        <Text style={styles.loadingText}>
+          No cars found! Time to go spotting? 👀
+        </Text>
       ) : (
         <FlatList
           data={cars}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
             <View style={styles.card}>
-              <Text style={styles.text}>
-                {item.make} {item.model}
-                {" ("}
-                {item.generation}
-                {")"}
+              <Text>
+                <Text style={styles.carText}>
+                  {item.make} {item.model}{" "}
+                </Text>
+                <Text style={styles.text}>
+                  {item.generation ? `(${item.generation})` : ""}
+                </Text>
               </Text>
               <Text style={styles.text}>Color: {item.color}</Text>
 
-              {/* Button to view the car image */}
               {item.image && (
                 <TouchableOpacity
-                  style={styles.toggleButton}
+                  style={styles.iconButton}
                   onPress={() => toggleImageVisibility(item.key)}
                 >
-                  <Text style={styles.toggleButtonText}>
+                  <Ionicons
+                    name={
+                      visibleImages[item.key]
+                        ? "close"
+                        : "image-outline"
+                    }
+                    size={20}
+                    color="#fff"
+                  />
+                  <Text style={styles.iconButtonText}>
                     {visibleImages[item.key] ? "Hide photo" : "View photo"}
                   </Text>
                 </TouchableOpacity>
@@ -108,35 +132,53 @@ export default function CarList() {
               {visibleImages[item.key] && item.image && (
                 <View>
                   {loadingImages[item.key] && (
-                    <ActivityIndicator size="small" color="#0000ff" />
+                    <ActivityIndicator
+                      size="small"
+                      color="#0000ff"
+                      style={styles.loadingThrobber}
+                    />
                   )}
-                  <Image
-                    source={{ uri: item.image }}
-                    style={styles.carImage}
-                    resizeMode="contain"
-                    onLoadStart={() =>
-                      setLoadingImages((prev) => ({
-                        ...prev,
-                        [item.key]: true,
-                      }))
-                    }
-                    onLoadEnd={() =>
-                      setLoadingImages((prev) => ({
-                        ...prev,
-                        [item.key]: false,
-                      }))
-                    }
-                  />
+                  <TouchableOpacity
+                    onPress={() => handleImagePress(item.image)}
+                  >
+                    <Image
+                      source={{ uri: item.image }}
+                      style={styles.carImage}
+                      resizeMode="contain"
+                      onLoadStart={() =>
+                        setLoadingImages((prev) => ({
+                          ...prev,
+                          [item.key]: true,
+                        }))
+                      }
+                      onLoadEnd={() =>
+                        setLoadingImages((prev) => ({
+                          ...prev,
+                          [item.key]: false,
+                        }))
+                      }
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.imageText}>
+                    Tap to the image to view full size.
+                  </Text>
                 </View>
               )}
 
               {/* Button to view location */}
               {item.location?.latitude && item.location?.longitude && (
                 <TouchableOpacity
-                  style={styles.toggleButton}
+                  style={styles.iconButton}
                   onPress={() => toggleMap(index)}
                 >
-                  <Text style={styles.toggleButtonText}>
+                  <Ionicons
+                    name={
+                      expandedIndex === index ? "close" : "location-outline"
+                    }
+                    size={20}
+                    color="#fff"
+                  />
+                  <Text style={styles.iconButtonText}>
                     {expandedIndex === index
                       ? "Hide location"
                       : "Show location"}
@@ -167,7 +209,8 @@ export default function CarList() {
                 style={styles.deleteButton}
                 onPress={() => deleteCar(item.key)}
               >
-                <Text style={styles.toggleButtonText}>Remove car</Text>
+                <Ionicons name="trash-outline" size={20} color="#fff" />
+                <Text style={styles.iconButtonText}>Remove car</Text>
               </TouchableOpacity>
             </View>
           )}
