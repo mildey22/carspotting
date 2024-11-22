@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  StyleSheet,
   View,
   Text,
   Button,
@@ -13,6 +12,7 @@ import {
 import MapView, { Marker } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
 
+import styles from "../styles/AddCarStyles";
 import { app } from "../firebaseConfig";
 import { getDatabase, ref, push } from "firebase/database";
 import {
@@ -203,32 +203,3 @@ export default function AddCar() {
     </TouchableWithoutFeedback>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-  },
-  input: {
-    width: "90%",
-    height: 50,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 10,
-    paddingLeft: 10,
-    marginBottom: 15,
-  },
-  map: {
-    width: "100%",
-    height: 300,
-    marginBottom: 10,
-  },
-  text: {
-    fontSize: 20,
-    marginBottom: 5,
-  },
-});
