@@ -6,20 +6,20 @@ import {
   TouchableOpacity,
   Alert,
   Image,
+  ActivityIndicator, // Add this import
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-
 import styles from "../styles/CarListStyles";
 import { app } from "../firebaseConfig";
 import { getDatabase, ref, onValue, remove } from "firebase/database";
 
 export default function CarList() {
   const [cars, setCars] = useState([]);
-  const [expandedIndex, setExpandedIndex] = useState(null); // Track which map is toggled
-  const [visibleImages, setVisibleImages] = useState({}); // Track which images are visible
-  const [loadingImages, setLoadingImages] = useState({}); // Track loading states of images
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [visibleImages, setVisibleImages] = useState({});
+  const [loadingImages, setLoadingImages] = useState({});
+  const [loading, setLoading] = useState(true); // Loading state for cars
   const database = getDatabase(app);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const carsRef = ref(database, "cars/");
@@ -51,7 +51,7 @@ export default function CarList() {
 
   const deleteCar = (key) => {
     Alert.alert(
-      "Confirm Delete",
+      "Confirm remove",
       "Are you sure you want to remove this car?",
       [
         { text: "Cancel", style: "cancel" },
@@ -65,7 +65,7 @@ export default function CarList() {
                 setCars((prevCars) => prevCars.filter((car) => car.key !== key));
               })
               .catch((error) => {
-                console.error("Error deleting car:", error);
+                console.error("Error removing car:", error);
               });
           },
         },
@@ -76,7 +76,8 @@ export default function CarList() {
   return (
     <View style={styles.container}>
       {loading ? (
-        <Text style={styles.loadingText}>Loading cars...</Text>
+        // Use ActivityIndicator for a loading spinner
+        <ActivityIndicator size="large" color="#0000ff" />
       ) : cars.length === 0 ? (
         <Text style={styles.loadingText}>No cars found! Time to go spotting? 👀</Text>
       ) : (
@@ -92,6 +93,7 @@ export default function CarList() {
                 {")"}
               </Text>
               <Text style={styles.text}>Color: {item.color}</Text>
+
               {/* Button to view the car image */}
               {item.image && (
                 <TouchableOpacity
@@ -99,14 +101,16 @@ export default function CarList() {
                   onPress={() => toggleImageVisibility(item.key)}
                 >
                   <Text style={styles.toggleButtonText}>
-                    {visibleImages[item.key] ? "Hide image" : "View image"}
+                    {visibleImages[item.key] ? "Hide photo" : "View photo"}
                   </Text>
                 </TouchableOpacity>
               )}
+
               {visibleImages[item.key] && item.image && (
                 <View>
                   {loadingImages[item.key] && (
-                    <Text style={styles.loadingText}>Loading image...</Text>
+                    // Use ActivityIndicator while loading image
+                    <ActivityIndicator size="small" color="#0000ff" />
                   )}
                   <Image
                     source={{ uri: item.image }}
@@ -127,6 +131,7 @@ export default function CarList() {
                   />
                 </View>
               )}
+
               {/* Button to view location */}
               {item.location?.latitude && item.location?.longitude && (
                 <TouchableOpacity
@@ -159,6 +164,7 @@ export default function CarList() {
                   />
                 </MapView>
               )}
+
               <TouchableOpacity
                 style={styles.deleteButton}
                 onPress={() => deleteCar(item.key)}
