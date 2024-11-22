@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -14,7 +14,7 @@ import MapView, { Marker } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
 
 import { app } from "../firebaseConfig";
-import { getDatabase, ref, push, onValue } from "firebase/database";
+import { getDatabase, ref, push } from "firebase/database";
 import {
   getStorage,
   ref as storageRef,
@@ -28,51 +28,47 @@ export default function AddCar() {
     model: "",
     generation: "",
     color: "",
-    image: null,
     location: {
       latitude: null,
       longitude: null,
     },
+    image: null, // Added image field to the car object
   });
 
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const [showMap, setShowMap] = useState(false);
   const database = getDatabase(app);
 
-  const uploadImage = async (uri, name, onProgress) => {
-    const fetchResponse = await fetch(uri);
-    const theBlob = await fetchResponse.blob();
+  // Upload image to Firebase
+  const uploadImage = async (uri, name) => {
+    try {
+      const fetchResponse = await fetch(uri);
+      const theBlob = await fetchResponse.blob();
+      const imageRef = storageRef(getStorage(), `images/${name}`);
+      const uploadTask = uploadBytesResumable(imageRef, theBlob);
 
-    const imageRef = storageRef(getStorage(), `images/${name}`);
-
-    const uploadTask = uploadBytesResumable(imageRef, theBlob);
-
-    return new Promise((resolve, reject) => {
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          onProgress && onProgress(progress);
-        },
-        (error) => {
-          reject(error);
-        },
-        async () => {
-          const downloadUrl = await getDownloadURL(uploadTask.snapshot.storageRef);
-          resolve({
-            downloadUrl,
-            metadata: uploadTask.snapshot.metadata,
-          });
-        }
-      );
-    });
+      return new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          null,
+          (error) => reject(error),
+          async () => {
+            const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+            resolve(downloadUrl);
+          }
+        );
+      });
+    } catch (error) {
+      Alert.alert("Error", `Error uploading image: ${error.message}`);
+      throw error;
+    }
   };
 
-  // Function to pick an image and save URI to state
+  // Function to pick an image and upload it
   const pickImage = async () => {
     try {
       const imageResponse = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: 'images',
+        mediaTypes: "images",
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
@@ -80,54 +76,52 @@ export default function AddCar() {
 
       if (!imageResponse.canceled) {
         const { uri } = imageResponse.assets[0];
-        const fileName = uri.split('/').pop();
+        const fileName = uri.split("/").pop();
+
+        // Display selected image immediately
+        setUploadedImageUrl(uri);
+
+        // Upload image to Firebase
+        const downloadUrl = await uploadImage(uri, fileName);
+
+        // Update the car state with the uploaded image URL
         setCar((prevCar) => ({
           ...prevCar,
-          image: { uri, name: fileName },
+          image: downloadUrl,
         }));
+
+        Alert.alert("Success", "Image uploaded successfully and added to the car.");
       }
     } catch (error) {
-      Alert.alert("Error uploading image: " + error.message);
+      Alert.alert("Error", `Error uploading image: ${error.message}`);
     }
   };
 
-  // Save car and upload image if needed
+  // Save car details to the database
   const handleSave = async () => {
-    if (car.image) {
-      // Upload image first
-      try {
-        const { uri, name } = car.image;
-        const uploadResponse = await uploadImage(uri, name);
-        const carWithImage = {
-          ...car,
-          image: uploadResponse.downloadUrl, // Save image URL
-        };
+    if (!car.make || !car.model || !car.generation || !car.color) {
+      Alert.alert("Error", "Please fill out all car details.");
+      return;
+    }
 
-        // Save car data with image URL
-        push(ref(database, "cars/"), carWithImage)
-          .then(() => {
-            Alert.alert("Success", "Car successfully saved.");
-            Keyboard.dismiss();
-            setCar({
-              make: "",
-              model: "",
-              generation: "",
-              color: "",
-              image: null,
-              location: {
-                latitude: null,
-                longitude: null,
-              },
-            });
-          })
-          .catch((error) => {
-            Alert.alert("Error", `Error while saving new car: ${error.message}`);
-          });
-      } catch (error) {
-        Alert.alert("Error", `Error uploading image: ${error.message}`);
-      }
-    } else {
-      Alert.alert("Error", "Please input at least an image of the car.");
+    try {
+      await push(ref(database, "cars/"), car);
+      Alert.alert("Success", "Car details saved successfully.");
+      Keyboard.dismiss();
+      setCar({
+        make: "",
+        model: "",
+        generation: "",
+        color: "",
+        location: {
+          latitude: null,
+          longitude: null,
+        },
+        image: null,
+      });
+      setUploadedImageUrl(null);
+    } catch (error) {
+      Alert.alert("Error", `Error saving car details: ${error.message}`);
     }
   };
 
@@ -159,11 +153,12 @@ export default function AddCar() {
           placeholder="Enter color"
           style={styles.input}
         />
+
         <Button title="Choose photo" onPress={pickImage} />
 
-        {car.image && (
+        {uploadedImageUrl && (
           <Image
-            source={{ uri: car.image.uri }}
+            source={{ uri: uploadedImageUrl }}
             style={{ width: 100, height: 100, marginTop: 10 }}
           />
         )}
@@ -208,6 +203,7 @@ export default function AddCar() {
     </TouchableWithoutFeedback>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  Image,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
@@ -15,16 +16,16 @@ import { getDatabase, ref, onValue, remove } from "firebase/database";
 export default function CarList() {
   const [cars, setCars] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(null); // Track which map is toggled
+  const [visibleImages, setVisibleImages] = useState({}); // Track which images are visible
+  const [loadingImages, setLoadingImages] = useState({}); // Track loading states of images
   const database = getDatabase(app);
   const [loading, setLoading] = useState(true);
 
-  // Fetch cars from Firebase Realtime Database
   useEffect(() => {
     const carsRef = ref(database, "cars/");
     onValue(carsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        // Convert entries to an array of objects with keys
         const carsArray = Object.entries(data).map(([key, value]) => ({
           key,
           ...value,
@@ -39,6 +40,13 @@ export default function CarList() {
 
   const toggleMap = (index) => {
     setExpandedIndex(index === expandedIndex ? null : index);
+  };
+
+  const toggleImageVisibility = (key) => {
+    setVisibleImages((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
   };
 
   const deleteCar = (key) => {
@@ -84,12 +92,42 @@ export default function CarList() {
                 {")"}
               </Text>
               <Text style={styles.text}>Color: {item.color}</Text>
-              <TouchableOpacity
-                style={styles.toggleButton}
-              >
-                <Text style={styles.toggleButtonText}>View image</Text>
-              </TouchableOpacity>
-              {/* Check if latitude and longitude exist before showing the button */}
+              {/* Button to view the car image */}
+              {item.image && (
+                <TouchableOpacity
+                  style={styles.toggleButton}
+                  onPress={() => toggleImageVisibility(item.key)}
+                >
+                  <Text style={styles.toggleButtonText}>
+                    {visibleImages[item.key] ? "Hide image" : "View image"}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              {visibleImages[item.key] && item.image && (
+                <View>
+                  {loadingImages[item.key] && (
+                    <Text style={styles.loadingText}>Loading image...</Text>
+                  )}
+                  <Image
+                    source={{ uri: item.image }}
+                    style={styles.carImage}
+                    resizeMode="contain"
+                    onLoadStart={() =>
+                      setLoadingImages((prev) => ({
+                        ...prev,
+                        [item.key]: true,
+                      }))
+                    }
+                    onLoadEnd={() =>
+                      setLoadingImages((prev) => ({
+                        ...prev,
+                        [item.key]: false,
+                      }))
+                    }
+                  />
+                </View>
+              )}
+              {/* Button to view location */}
               {item.location?.latitude && item.location?.longitude && (
                 <TouchableOpacity
                   style={styles.toggleButton}
@@ -150,9 +188,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
   },
   loadingText: {
-    fontSize: 20,
+    fontSize: 16,
     textAlign: "center",
-    marginTop: 20,
+    marginTop: 5,
   },
   text: {
     fontSize: 16,
@@ -182,5 +220,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 200,
     marginTop: 10,
+  },
+  carImage: {
+    width: "100%",
+    height: 200,
+    marginVertical: 10,
   },
 });
