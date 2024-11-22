@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   Image,
-  ActivityIndicator, // Add this import
+  ActivityIndicator,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import styles from "../styles/CarListStyles";
@@ -18,7 +18,7 @@ export default function CarList() {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [visibleImages, setVisibleImages] = useState({});
   const [loadingImages, setLoadingImages] = useState({});
-  const [loading, setLoading] = useState(true); // Loading state for cars
+  const [loading, setLoading] = useState(true); 
   const database = getDatabase(app);
 
   useEffect(() => {
@@ -76,7 +76,6 @@ export default function CarList() {
   return (
     <View style={styles.container}>
       {loading ? (
-        // Use ActivityIndicator for a loading spinner
         <ActivityIndicator size="large" color="#0000ff" />
       ) : cars.length === 0 ? (
         <Text style={styles.loadingText}>No cars found! Time to go spotting? 👀</Text>
@@ -109,7 +108,6 @@ export default function CarList() {
               {visibleImages[item.key] && item.image && (
                 <View>
                   {loadingImages[item.key] && (
-                    // Use ActivityIndicator while loading image
                     <ActivityIndicator size="small" color="#0000ff" />
                   )}
                   <Image

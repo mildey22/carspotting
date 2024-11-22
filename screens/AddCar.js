@@ -37,7 +37,7 @@ export default function AddCar() {
       latitude: null,
       longitude: null,
     },
-    image: null, // Added image field to the car object
+    image: null,
   });
 
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -49,7 +49,7 @@ export default function AddCar() {
   // Upload image to Firebase
   const uploadImage = async (uri, name) => {
     try {
-      setIsUploading(true); // Set uploading to true
+      setIsUploading(true);
       const fetchResponse = await fetch(uri);
       const theBlob = await fetchResponse.blob();
       const imageRef = storageRef(getStorage(), `images/${name}`);
@@ -61,18 +61,18 @@ export default function AddCar() {
           null,
           (error) => {
             reject(error);
-            setIsUploading(false); // Set uploading to false on error
+            setIsUploading(false);
           },
           async () => {
             const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
             resolve(downloadUrl);
-            setIsUploading(false); // Set uploading to false once completed
+            setIsUploading(false);
           }
         );
       });
     } catch (error) {
       Alert.alert("Error", `Error uploading photo: ${error.message}`);
-      setIsUploading(false); // Set uploading to false on error
+      setIsUploading(false);
       throw error;
     }
   };
@@ -102,7 +102,7 @@ export default function AddCar() {
           ...prevCar,
           image: downloadUrl,
         }));
-        setUploadedImageUrl(downloadUrl); // Set the image URL after upload
+        setUploadedImageUrl(downloadUrl);
       }
     } catch (error) {
       Alert.alert("Error", `Error uploading photo: ${error.message}`);
@@ -146,7 +146,7 @@ export default function AddCar() {
             } catch (error) {
               Alert.alert("Error", `Error removing photo: ${error.message}`);
             } finally {
-              setIsDeleting(false); // Set deleting to false
+              setIsDeleting(false);
             }
           },
         },
@@ -238,7 +238,7 @@ export default function AddCar() {
         )}
 
         {isDeleting && (
-          <ActivityIndicator size="large" color="#0000ff" /> // Show deleting spinner
+          <ActivityIndicator size="large" color="#0000ff" />
         )}
 
         <Button
