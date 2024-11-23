@@ -17,6 +17,7 @@ import styles from "../styles/CarListStyles";
 import { app } from "../firebaseConfig";
 
 import { getDatabase, ref, onValue, remove } from "firebase/database";
+import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 
 export default function CarList() {
   const [cars, setCars] = useState([]);
@@ -54,21 +55,35 @@ export default function CarList() {
     }));
   };
 
-  const deleteCar = (key) => {
+  const deleteCar = (key, imageUrl) => {
     Alert.alert("Confirm remove", "Are you sure you want to remove this car?", [
       { text: "Cancel", style: "cancel" },
       {
         text: "Remove",
         style: "destructive",
-        onPress: () => {
-          const carRef = ref(database, `cars/${key}`);
-          remove(carRef)
-            .then(() => {
-              setCars((prevCars) => prevCars.filter((car) => car.key !== key));
-            })
-            .catch((error) => {
-              console.error("Error removing car:", error);
-            });
+        onPress: async () => {
+          try {
+            // Delete the car from the database
+            const carRef = ref(database, `cars/${key}`);
+            await remove(carRef); // Ensure the reference is correct
+  
+            // If an image exists, delete it from Firebase Storage
+            if (imageUrl) {
+              // Extract the image path from the URL
+              const imagePath = imageUrl.split("?")[0];
+  
+              // Create a reference to the image in Firebase Storage
+              const imageRef = storageRef(getStorage(), imagePath);
+  
+              // Delete the image from Firebase Storage
+              await deleteObject(imageRef);
+            }
+  
+            // Remove the car from the local state
+            setCars((prevCars) => prevCars.filter((car) => car.key !== key));
+          } catch (error) {
+            Alert.alert("Error", `Error removing car or image: ${error.message}`);
+          }
         },
       },
     ]);
@@ -115,11 +130,7 @@ export default function CarList() {
                   onPress={() => toggleImageVisibility(item.key)}
                 >
                   <Ionicons
-                    name={
-                      visibleImages[item.key]
-                        ? "close"
-                        : "image-outline"
-                    }
+                    name={visibleImages[item.key] ? "close" : "image-outline"}
                     size={20}
                     color="#fff"
                   />
@@ -207,7 +218,7 @@ export default function CarList() {
 
               <TouchableOpacity
                 style={styles.deleteButton}
-                onPress={() => deleteCar(item.key)}
+                onPress={() => deleteCar(item.key, item.image)}
               >
                 <Ionicons name="trash-outline" size={20} color="#fff" />
                 <Text style={styles.iconButtonText}>Remove car</Text>
