@@ -142,8 +142,6 @@ export default function AddCar() {
                 image: null,
               }));
               setUploadedImageUrl(null); // Clear the image preview
-
-              Alert.alert("Success", "Photo removed successfully.");
             } catch (error) {
               Alert.alert("Error", `Error removing photo: ${error.message}`);
             } finally {
