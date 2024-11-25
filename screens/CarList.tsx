@@ -14,6 +14,7 @@ import MapView, { Marker } from "react-native-maps";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import styles from "../styles/CarListStyles";
+import buttonStyles from "../styles/ButtonStyles";
 import { app } from "../firebaseConfig";
 import { ICar } from "../types/api";
 
@@ -127,7 +128,7 @@ export default function CarList() {
 
               {item.image && (
                 <TouchableOpacity
-                  style={styles.iconButton}
+                  style={buttonStyles.button}
                   onPress={() => toggleImageVisibility(item.key)}
                 >
                   <Ionicons
@@ -135,7 +136,7 @@ export default function CarList() {
                     size={20}
                     color="#fff"
                   />
-                  <Text style={styles.iconButtonText}>
+                  <Text style={buttonStyles.buttonText}>
                     {visibleImages[item.key] ? "Hide photo" : "View photo"}
                   </Text>
                 </TouchableOpacity>
@@ -180,7 +181,7 @@ export default function CarList() {
               {/* Button to view location */}
               {item.location?.latitude && item.location?.longitude && (
                 <TouchableOpacity
-                  style={styles.iconButton}
+                  style={buttonStyles.button}
                   onPress={() => toggleMap(index)}
                 >
                   <Ionicons
@@ -190,7 +191,7 @@ export default function CarList() {
                     size={20}
                     color="#fff"
                   />
-                  <Text style={styles.iconButtonText}>
+                  <Text style={buttonStyles.buttonText}>
                     {expandedIndex === index
                       ? "Hide location"
                       : "Show location"}
@@ -218,11 +219,11 @@ export default function CarList() {
               )}
 
               <TouchableOpacity
-                style={styles.deleteButton}
+                style={buttonStyles.deleteButton}
                 onPress={() => deleteCar(item.key, item.image)}
               >
                 <Ionicons name="trash-outline" size={20} color="#fff" />
-                <Text style={styles.iconButtonText}>Remove car</Text>
+                <Text style={buttonStyles.buttonText}>Remove car</Text>
               </TouchableOpacity>
             </View>
           )}

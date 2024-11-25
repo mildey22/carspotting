@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   TouchableOpacity,
   Text,
-  View,
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
@@ -17,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import styles from "../styles/AddCarStyles";
+import buttonStyles from "../styles/ButtonStyles";
 import { app } from "../firebaseConfig";
 
 import { getDatabase, ref, push } from "firebase/database";
@@ -184,7 +184,7 @@ export default function AddCar() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.headline}>What did you spot today? 👀</Text>
+        <Text style={styles.title}>What did you spot today? 👀</Text>
         <TextInput
           value={car.make}
           onChangeText={(text) => setCar({ ...car, make: text })}
@@ -212,16 +212,17 @@ export default function AddCar() {
 
         {/* Show the "Choose photo" button only if there's no image uploaded */}
         {!uploadedImageUrl && !isUploading && (
-          <TouchableOpacity style={styles.iconButton} onPress={pickImage}>
+          <TouchableOpacity style={buttonStyles.button} onPress={pickImage}>
             <Ionicons name="images-outline" size={20} color="#fff" />
-            <Text style={styles.iconButtonText}>Choose photo</Text>
+            <Text style={buttonStyles.buttonText}>Choose photo</Text>
           </TouchableOpacity>
         )}
 
+        {/* Show the "Remove photo" button only if there's an image uploaded */}
         {uploadedImageUrl && !isUploading && !isDeleting && (
-          <TouchableOpacity style={styles.deleteButton} onPress={deleteImage}>
+          <TouchableOpacity style={buttonStyles.deleteButton} onPress={deleteImage}>
             <Ionicons name="trash-outline" size={20} color="#fff" />
-            <Text style={styles.iconButtonText}>Remove photo</Text>
+            <Text style={buttonStyles.buttonText}>Remove photo</Text>
           </TouchableOpacity>
         )}
 
@@ -242,6 +243,7 @@ export default function AddCar() {
           />
         )}
 
+        {/* Show ActivityIndicator while deleting*/}
         {isDeleting && (
           <ActivityIndicator
             size="large"
@@ -251,7 +253,7 @@ export default function AddCar() {
         )}
 
         <TouchableOpacity
-          style={styles.iconButton}
+          style={buttonStyles.button}
           onPress={() => setShowMap(!showMap)}
         >
           <Ionicons
@@ -259,7 +261,7 @@ export default function AddCar() {
             size={20}
             color="#fff"
           />
-          <Text style={styles.iconButtonText}>
+          <Text style={buttonStyles.buttonText}>
             {showMap ? "Close map" : "Add location"}
           </Text>
         </TouchableOpacity>
@@ -297,14 +299,14 @@ export default function AddCar() {
         <TouchableOpacity
           onPress={handleSave}
           style={[
-            styles.saveButton,
-            (isUploading || isDeleting) && styles.disabledButton,
+            buttonStyles.saveButton,
+            (isUploading || isDeleting) && buttonStyles.disabledButton,
           ]}
           // Disable the button if uploading or deleting
           disabled={isUploading || isDeleting}
         >
           <Ionicons name="save-outline" size={20} color="#fff" />
-          <Text style={styles.saveButtonText}>Save car</Text>
+          <Text style={buttonStyles.saveButtonText}>Save car</Text>
         </TouchableOpacity>
       </ScrollView>
     </TouchableWithoutFeedback>

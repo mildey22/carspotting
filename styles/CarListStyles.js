@@ -33,27 +33,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontWeight: "bold",
   },
-  toggleButton: {
-    marginBottom: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#007BFF",
-  },
-  deleteButton: {
-    flexDirection: 'row',
-    marginBottom: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#DC3545",
-  },
-  toggleButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
   map: {
     width: "100%",
     height: 200,
@@ -68,25 +47,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  iconButtonContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#007BFF',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  iconButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    marginLeft: 10,
   },
   loadingThrobber: {
     alignSelf: 'center',

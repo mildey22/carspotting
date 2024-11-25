@@ -26,67 +26,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 5,
   },
-  headline: {
+  title: {
     fontSize: 24,
     marginBottom: 20,
-  },
-  toggleButton: {
-    marginBottom: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#007BFF",
-  },
-  deleteButton: {
-    flexDirection: 'row',
-    marginBottom: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#DC3545",
-  },
-  toggleButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  saveButton: {
-    flexDirection: 'row',
-    backgroundColor: '#007bff',
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  
-  disabledButton: {
-    backgroundColor: '#b0b0b0', 
-  },
-  saveButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginLeft: 10,
-  },
-  iconButtonContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#007BFF',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  iconButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    marginLeft: 10,
   },
   loadingThrobber: {
     marginTop: 10, 
