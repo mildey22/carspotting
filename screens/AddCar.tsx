@@ -17,7 +17,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import styles from "../styles/AddCarStyles";
 import buttonStyles from "../styles/ButtonStyles";
-import { app } from "../firebaseConfig";
+import { app } from "../firebase/firebaseConfig";
 
 import { getDatabase, ref, push } from "firebase/database";
 import {
