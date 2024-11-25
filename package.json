@@ -29,7 +29,10 @@
     "react-native-web": "~0.19.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@types/react": "~18.3.12",
+    "@types/react-native-maps": "^0.24.1",
+    "typescript": "^5.3.3"
   },
   "private": true
 }

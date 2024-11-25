@@ -15,6 +15,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import styles from "../styles/CarListStyles";
 import { app } from "../firebaseConfig";
+import { ICar } from "../types/api";
 
 import { getDatabase, ref, onValue, remove } from "firebase/database";
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
@@ -30,7 +31,7 @@ export default function CarList() {
   useEffect(() => {
     const carsRef = ref(database, "cars/");
     onValue(carsRef, (snapshot) => {
-      const data = snapshot.val();
+      const data = snapshot.val() as Record<string, ICar>;
       if (data) {
         const carsArray = Object.entries(data).map(([key, value]) => ({
           key,
