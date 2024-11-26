@@ -9,6 +9,7 @@ import {
   Image,
   ActivityIndicator,
   ScrollView,
+  View,
 } from "react-native";
 
 import MapView, { Marker } from "react-native-maps";
@@ -43,8 +44,8 @@ export default function AddCar() {
 
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const [showMap, setShowMap] = useState(false);
-  const [isUploading, setIsUploading] = useState(false); // State to track upload progress
-  const [isDeleting, setIsDeleting] = useState(false); // State to track deletion progress
+  const [isUploading, setIsUploading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const database = getDatabase(app);
 
   // Upload image to Firebase
@@ -188,49 +189,93 @@ export default function AddCar() {
         <TextInput
           value={car.make}
           onChangeText={(text) => setCar({ ...car, make: text })}
-          placeholder="Enter make"
+          placeholder="Make"
+          placeholderTextColor="#98989e"
           style={styles.input}
         />
         <TextInput
           value={car.model}
           onChangeText={(text) => setCar({ ...car, model: text })}
-          placeholder="Enter model"
+          placeholder="Model"
+          placeholderTextColor="#98989e"
           style={styles.input}
         />
         <TextInput
           value={car.generation}
           onChangeText={(text) => setCar({ ...car, generation: text })}
-          placeholder="Enter generation"
+          placeholder="Generation"
+          placeholderTextColor="#98989e"
           style={styles.input}
         />
         <TextInput
           value={car.color}
           onChangeText={(text) => setCar({ ...car, color: text })}
-          placeholder="Enter color"
+          placeholder="Color (required)"
+          placeholderTextColor="#98989e"
           style={styles.input}
         />
+        <View style={buttonStyles.buttonRow}>
+        {/* Add photo button only visible when no photo is uploaded and uploading */}
+        {!uploadedImageUrl && (
+            <TouchableOpacity
+              style={buttonStyles.button}
+              onPress={pickImage}
+              disabled={isUploading}
+            >
+              <Ionicons name={"images-outline"} size={20} color={
+              isUploading
+                ? "#818181" 
+                : "#007aff"
+            }/>
+              <Text
+            style={[
+              buttonStyles.buttonText,
+              (isUploading) &&
+                buttonStyles.disabledButtonText,
+            ]}
+          >Add photo</Text>
+            </TouchableOpacity>
+          )}
 
-        {/* Show the "Choose photo" button only if there's no image uploaded */}
-        {!uploadedImageUrl && !isUploading && (
-          <TouchableOpacity style={buttonStyles.button} onPress={pickImage}>
-            <Ionicons name="images-outline" size={20} color="#fff" />
-            <Text style={buttonStyles.buttonText}>Choose photo</Text>
-          </TouchableOpacity>
-        )}
-
-        {/* Show the "Remove photo" button only if there's an image uploaded */}
-        {uploadedImageUrl && !isUploading && !isDeleting && (
-          <TouchableOpacity style={buttonStyles.deleteButton} onPress={deleteImage}>
-            <Ionicons name="trash-outline" size={20} color="#fff" />
-            <Text style={buttonStyles.buttonText}>Remove photo</Text>
-          </TouchableOpacity>
-        )}
+          {/* Show "Remove photo" button when a photo is uploaded, not uploading or deleting */}
+          {uploadedImageUrl && (
+            <TouchableOpacity
+              style={buttonStyles.button}
+              onPress={deleteImage}
+              disabled={isDeleting}
+            >
+              <Ionicons name="trash-outline" size={20} color={
+              isDeleting
+                ? "#818181" 
+                : "#ff3b30"
+            } />
+              <Text style={[
+              buttonStyles.deleteButtonText,
+              (isDeleting) &&
+                buttonStyles.disabledButtonText,
+            ]}>Remove photo</Text>
+            </TouchableOpacity>
+          )}
+        <TouchableOpacity
+          style={buttonStyles.button}
+          onPress={() => setShowMap(!showMap)}
+        >
+          <Ionicons
+            name={showMap ? "close" : "location-outline"}
+            size={20}
+            color="#3b82f7"
+          />
+          <Text style={buttonStyles.buttonText}>
+            {showMap ? "Close map" : "Add location"}
+          </Text>
+        </TouchableOpacity>
+        </View>
 
         {/* Show ActivityIndicator while uploading*/}
         {isUploading && (
           <ActivityIndicator
             size="large"
-            color="#0000ff"
+            color="#007aff"
             style={styles.loadingThrobber}
           />
         )}
@@ -251,20 +296,6 @@ export default function AddCar() {
             style={styles.loadingThrobber}
           />
         )}
-
-        <TouchableOpacity
-          style={buttonStyles.button}
-          onPress={() => setShowMap(!showMap)}
-        >
-          <Ionicons
-            name={showMap ? "close" : "location-outline"}
-            size={20}
-            color="#fff"
-          />
-          <Text style={buttonStyles.buttonText}>
-            {showMap ? "Close map" : "Add location"}
-          </Text>
-        </TouchableOpacity>
 
         {showMap && (
           <MapView
@@ -300,13 +331,30 @@ export default function AddCar() {
           onPress={handleSave}
           style={[
             buttonStyles.saveButton,
-            (isUploading || isDeleting) && buttonStyles.disabledButton,
+            (isUploading || isDeleting || !car.color) &&
+              buttonStyles.disabledButton,
           ]}
           // Disable the button if uploading or deleting
-          disabled={isUploading || isDeleting}
+          disabled={isUploading || isDeleting || !car.color}
         >
-          <Ionicons name="save-outline" size={20} color="#fff" />
-          <Text style={buttonStyles.saveButtonText}>Save car</Text>
+          <Ionicons
+            name="checkmark"
+            size={20}
+            color={
+              isUploading || isDeleting || !car.color
+                ? "#818181" 
+                : "#007aff"
+            }
+          />
+          <Text
+            style={[
+              buttonStyles.saveButtonText,
+              (isUploading || isDeleting || !car.color) &&
+                buttonStyles.disabledButtonText,
+            ]}
+          >
+            Save car
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </TouchableWithoutFeedback>

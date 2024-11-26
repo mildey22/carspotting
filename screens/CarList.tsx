@@ -103,11 +103,11 @@ export default function CarList() {
       {loading ? (
         <ActivityIndicator
           size="large"
-          color="#0000ff"
+          color="#007aff"
           style={styles.bigThrobber}
         />
       ) : cars.length === 0 ? (
-        <Text style={styles.loadingText}>
+        <Text style={styles.emptyListText}>
           No cars found! Time to go spotting? 👀
         </Text>
       ) : (
@@ -126,6 +126,7 @@ export default function CarList() {
               </Text>
               <Text style={styles.text}>Color: {item.color}</Text>
 
+            <View style={buttonStyles.buttonRow}>
               {item.image && (
                 <TouchableOpacity
                   style={buttonStyles.button}
@@ -134,20 +135,47 @@ export default function CarList() {
                   <Ionicons
                     name={visibleImages[item.key] ? "close" : "image-outline"}
                     size={20}
-                    color="#fff"
+                    color="#3b82f7"
                   />
                   <Text style={buttonStyles.buttonText}>
                     {visibleImages[item.key] ? "Hide photo" : "View photo"}
                   </Text>
                 </TouchableOpacity>
               )}
+              {/* Button to view location */}
+              {item.location?.latitude && item.location?.longitude && (
+                <TouchableOpacity
+                  style={buttonStyles.button}
+                  onPress={() => toggleMap(index)}
+                >
+                  <Ionicons
+                    name={
+                      expandedIndex === index ? "close" : "location-outline"
+                    }
+                    size={20}
+                    color="#3b82f7"
+                  />
+                  <Text style={buttonStyles.buttonText}>
+                    {expandedIndex === index
+                      ? "Hide location"
+                      : "Show location"}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              <TouchableOpacity
+                style={buttonStyles.button}
+                onPress={() => deleteCar(item.key, item.image)}
+              >
+                <Ionicons name="trash-outline" size={20} color="#ff3b30" />
+              </TouchableOpacity>
+            </View>
 
               {visibleImages[item.key] && item.image && (
                 <View>
                   {loadingImages[item.key] && (
                     <ActivityIndicator
                       size="small"
-                      color="#0000ff"
+                      color="#007aff"
                       style={styles.loadingThrobber}
                     />
                   )}
@@ -178,26 +206,6 @@ export default function CarList() {
                 </View>
               )}
 
-              {/* Button to view location */}
-              {item.location?.latitude && item.location?.longitude && (
-                <TouchableOpacity
-                  style={buttonStyles.button}
-                  onPress={() => toggleMap(index)}
-                >
-                  <Ionicons
-                    name={
-                      expandedIndex === index ? "close" : "location-outline"
-                    }
-                    size={20}
-                    color="#fff"
-                  />
-                  <Text style={buttonStyles.buttonText}>
-                    {expandedIndex === index
-                      ? "Hide location"
-                      : "Show location"}
-                  </Text>
-                </TouchableOpacity>
-              )}
               {expandedIndex === index && item.location && (
                 <MapView
                   style={styles.map}
@@ -217,14 +225,6 @@ export default function CarList() {
                   />
                 </MapView>
               )}
-
-              <TouchableOpacity
-                style={buttonStyles.deleteButton}
-                onPress={() => deleteCar(item.key, item.image)}
-              >
-                <Ionicons name="trash-outline" size={20} color="#fff" />
-                <Text style={buttonStyles.buttonText}>Remove car</Text>
-              </TouchableOpacity>
             </View>
           )}
         />

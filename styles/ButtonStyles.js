@@ -2,38 +2,44 @@ import { StyleSheet } from "react-native";
 
 
 const buttonStyles = StyleSheet.create({
-button: {
+  button: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#007BFF',
+    backgroundColor: '#1c1c1e',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 150,
     marginBottom: 10,
-  },
-  buttonContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginHorizontal: 5,
   },
   buttonText: {
-    color: '#fff',
+    color: '#3b82f7',
     fontWeight: 'bold',
-    marginLeft: 10,
+    marginLeft: 7,
+    fontSize: 16,
   },
   saveButton: {
     flexDirection: 'row',
-    backgroundColor: '#007bff',
+    backgroundColor: '#1c1c1e',
     padding: 12,
-    borderRadius: 5,
+    borderRadius: 150, 
     alignItems: 'center',
     marginTop: 20,
   },
   saveButtonText: {
-    color: 'white',
+    color: '#007aff',
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 10,
+  },
+  deleteCarButton: {
+    flexDirection: 'row',
+    marginBottom: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+    borderRadius: 150,
+    backgroundColor: "#1c1c1e",
   },
   deleteButton: {
     flexDirection: 'row',
@@ -41,12 +47,27 @@ button: {
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#DC3545",
+    borderRadius: 150,
+    backgroundColor: "#1c1c1e",
+  },
+  deleteButtonText: {
+    color: "#ff3b30",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginLeft: 7,
   },
   disabledButton: {
-    backgroundColor: '#b0b0b0', 
+    backgroundColor: '#1c1c1e', 
   },
+  disabledButtonText: {
+    color: '#818181',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
+  }
 });
 
 export default buttonStyles;

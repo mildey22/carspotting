@@ -3,40 +3,45 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    padding: 10,
+    backgroundColor: "#000000",
+    //padding: 10,
   },
   card: {
+    marginTop: 10,
     marginBottom: 10,
     padding: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 5,
-    backgroundColor: "#f9f9f9",
+    borderWidth: 0.8,
+    borderColor: "#313134",
+    borderRadius: 30,
+    backgroundColor: "#000000",
   },
-  loadingText: {
+  emptyListText: {
     fontSize: 16,
     textAlign: "center",
     marginTop: 5,
+    color: "#FFFFFF",
   },
   text: {
     fontSize: 16,
     marginBottom: 5,
+    color: "#8b8b90",
   },
   imageText: {
     fontSize: 16,
     marginBottom: 5,
     textAlign: "center",
+    color: "#8b8b90",
   },
   carText: {
     fontSize: 22,
     marginBottom: 5,
     fontWeight: "bold",
+    color: "#FFFFFF",
   },
   map: {
     width: "100%",
     height: 200,
-    marginTop: 10,
+    marginBottom: 10,
   },
   carImage: {
     width: "100%",
