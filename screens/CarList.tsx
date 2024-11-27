@@ -17,6 +17,7 @@ import styles from "../styles/CarListStyles";
 import buttonStyles from "../styles/ButtonStyles";
 import { app } from "../firebase/firebaseConfig";
 import { ICar } from "../types/api";
+import { useTranslation } from "react-i18next";
 
 import { getDatabase, ref, onValue, remove } from "firebase/database";
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
@@ -28,6 +29,7 @@ export default function CarList() {
   const [loadingImages, setLoadingImages] = useState({});
   const [loading, setLoading] = useState(true);
   const database = getDatabase(app);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const carsRef = ref(database, "cars/");
@@ -58,10 +60,10 @@ export default function CarList() {
   };
 
   const deleteCar = (key, imageUrl) => {
-    Alert.alert("Confirm remove", "Are you sure you want to remove this car?", [
-      { text: "Cancel", style: "cancel" },
+    Alert.alert(t("confirmRemove"), t("areYouSureRemoveCar"), [
+      { text: t("cancel"), style: "cancel" },
       {
-        text: "Remove",
+        text: t("remove"),
         style: "destructive",
         onPress: async () => {
           try {
@@ -84,7 +86,7 @@ export default function CarList() {
             // Remove the car from the local state
             setCars((prevCars) => prevCars.filter((car) => car.key !== key));
           } catch (error) {
-            Alert.alert("Error", `Error removing car or image: ${error.message}`);
+            Alert.alert(t("error"), t("errorRemovingCarOrImage", { errorMessage: error.message }));
           }
         },
       },
@@ -108,7 +110,7 @@ export default function CarList() {
         />
       ) : cars.length === 0 ? (
         <Text style={styles.emptyListText}>
-          No cars found! Time to go spotting? 👀
+          {t("noCarsFound")}
         </Text>
       ) : (
         <FlatList
@@ -124,7 +126,7 @@ export default function CarList() {
                   {item.generation ? `(${item.generation})` : ""}
                 </Text>
               </Text>
-              <Text style={styles.text}>Color: {item.color}</Text>
+              <Text style={styles.text}>{t("displayColor")}{item.color}</Text>
 
             <View style={buttonStyles.buttonRow}>
               {item.image && (
@@ -138,7 +140,7 @@ export default function CarList() {
                     color="#3b82f7"
                   />
                   <Text style={buttonStyles.buttonText}>
-                    {visibleImages[item.key] ? "Hide photo" : "View photo"}
+                    {visibleImages[item.key] ? t("hidePhoto") : t("viewPhoto")}
                   </Text>
                 </TouchableOpacity>
               )}
@@ -157,8 +159,8 @@ export default function CarList() {
                   />
                   <Text style={buttonStyles.buttonText}>
                     {expandedIndex === index
-                      ? "Hide location"
-                      : "Show location"}
+                      ? t("hideLocation")
+                      : t("viewLocation")}
                   </Text>
                 </TouchableOpacity>
               )}
@@ -201,7 +203,7 @@ export default function CarList() {
                     />
                   </TouchableOpacity>
                   <Text style={styles.imageText}>
-                    Tap to the image to view full size.
+                    {t("imageFullSize")}
                   </Text>
                 </View>
               )}

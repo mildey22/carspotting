@@ -6,12 +6,20 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AddCar from "./screens/AddCar";
 import CarList from "./screens/CarList";
 import Settings from "./screens/Settings";
+import { useTranslation } from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 
 // Tried changing App.js into typescript but was met with an error on <Tab.Navigator> that I couldn't resolve
 
 export default function App() {
+
+  const { t } = useTranslation();
+
+  const newCarLabel = t("newCar");
+  const spottedLabel = t("spotted");
+  const settingsLabel = t("settings");
+
   return (
     <>
     <StatusBar style="light" />
@@ -21,11 +29,11 @@ export default function App() {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === "New car") {
+            if (route.name === newCarLabel) {
               iconName = focused ? "add" : "add";
-            } else if (route.name === "Spotted") {
+            } else if (route.name === spottedLabel) {
               iconName = focused ? "car-sport" : "car-sport-outline";
-            } else if (route.name === "Settings") {
+            } else if (route.name === settingsLabel) {
               iconName = focused ? "settings" : "settings-outline";
             }
 
@@ -43,9 +51,9 @@ export default function App() {
           headerTintColor: "#FFFFFF", // Header text color
         })}
       >
-        <Tab.Screen name="New car" component={AddCar} />
-        <Tab.Screen name="Spotted" component={CarList} />
-        <Tab.Screen name="Settings" component={Settings} />
+        <Tab.Screen name={newCarLabel} component={AddCar} />
+        <Tab.Screen name={spottedLabel} component={CarList} />
+        <Tab.Screen name={settingsLabel} component={Settings} />
       </Tab.Navigator>
     </NavigationContainer>
     </>

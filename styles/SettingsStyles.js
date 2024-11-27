@@ -2,8 +2,22 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#000000",
+    flexGrow: 1,
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+    color: "#FFFFFF",
+    fontWeight: "bold",
+  },
+  picker: {
+    width: '80%',
+    color: '#ffffff',
+    backgroundColor: '#1c1c1e',
   },
   card: {
     marginTop: 10,
@@ -53,7 +67,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loadingThrobber: {
-    alignSelf: 'center',
+    alignSelf: "center",
     marginVertical: 10,
   },
 });

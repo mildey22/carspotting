@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -19,6 +19,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import styles from "../styles/AddCarStyles";
 import buttonStyles from "../styles/ButtonStyles";
 import { app } from "../firebase/firebaseConfig";
+import { useTranslation } from "react-i18next";
 
 import { getDatabase, ref, push } from "firebase/database";
 import {
@@ -47,6 +48,8 @@ export default function AddCar() {
   const [isUploading, setIsUploading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const database = getDatabase(app);
+  const scrollViewRef = useRef(null);
+  const { t } = useTranslation();
 
   // Upload image to Firebase
   const uploadImage = async (uri, name) => {
@@ -73,7 +76,10 @@ export default function AddCar() {
         );
       });
     } catch (error) {
-      Alert.alert("Error", `Error uploading photo: ${error.message}`);
+      Alert.alert(
+        t("error"),
+        t("errorUploadingPhoto", { errorMessage: error.message })
+      );
       setIsUploading(false);
       throw error;
     }
@@ -107,63 +113,73 @@ export default function AddCar() {
         setUploadedImageUrl(downloadUrl);
       }
     } catch (error) {
-      Alert.alert("Error", `Error uploading photo: ${error.message}`);
+      Alert.alert(
+        t("error"),
+        t("errorUploadingPhoto", { errorMessage: error.message })
+      );
     }
   };
 
   // Function to delete the image from Firebase Storage with confirmation
   const deleteImage = async () => {
-    Alert.alert(
-      "Confirm remove",
-      "Are you sure you want to remove this photo?",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
+    Alert.alert(t("confirmRemove"), t("areYouSureRemoveImage"), [
+      {
+        text: t("cancel"),
+        style: "cancel",
+      },
+      {
+        text: t("remove"),
+        style: "destructive",
+        onPress: async () => {
+          try {
+            setIsDeleting(true);
+
+            // Extract the image path from the full URL
+            const imagePath = car.image.split("?")[0]; // Split off the query part
+
+            // Create a reference to the image in Firebase Storage
+            const imageRef = storageRef(getStorage(), imagePath);
+
+            // Delete the image from storage
+            await deleteObject(imageRef);
+
+            // Remove image URL from car object
+            setCar((prevCar) => ({
+              ...prevCar,
+              image: null,
+            }));
+            setUploadedImageUrl(null); // Clear the image preview
+          } catch (error) {
+            Alert.alert(
+              t("error"),
+              t("errorRemovingPhoto", { errorMessage: error.message })
+            );
+          } finally {
+            setIsDeleting(false);
+          }
         },
-        {
-          text: "Remove",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              setIsDeleting(true);
+      },
+    ]);
+  };
 
-              // Extract the image path from the full URL
-              const imagePath = car.image.split("?")[0]; // Split off the query part
-
-              // Create a reference to the image in Firebase Storage
-              const imageRef = storageRef(getStorage(), imagePath);
-
-              // Delete the image from storage
-              await deleteObject(imageRef);
-
-              // Remove image URL from car object
-              setCar((prevCar) => ({
-                ...prevCar,
-                image: null,
-              }));
-              setUploadedImageUrl(null); // Clear the image preview
-            } catch (error) {
-              Alert.alert("Error", `Error removing photo: ${error.message}`);
-            } finally {
-              setIsDeleting(false);
-            }
-          },
-        },
-      ]
-    );
+  const handleAddLocation = () => {
+    setShowMap(!showMap);
+    if (!showMap && scrollViewRef.current) {
+      // Tried to make page scroll to the bottom to display map nicely but couldnt get this to work
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
   };
 
   // Save car details to the database
   const handleSave = async () => {
     if (!car.color) {
-      Alert.alert("Error", "Please fill in at least the color.");
+      Alert.alert(t("error"), t("colorRequired"));
       return;
     }
 
     try {
       await push(ref(database, "cars/"), car);
-      Alert.alert("Success", "Car Saved!");
+      Alert.alert(t("success"), t("carSaved"));
       Keyboard.dismiss();
       setCar({
         make: "",
@@ -178,62 +194,70 @@ export default function AddCar() {
       });
       setUploadedImageUrl(null);
     } catch (error) {
-      Alert.alert("Error", `Error saving car: ${error.message}`);
+      Alert.alert(
+        t("error"),
+        t("errorSavingCar", { errorMessage: error.message })
+      );
     }
   };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>What did you spot today? 👀</Text>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        ref={scrollViewRef}
+        style={{ backgroundColor: "#000000" }}
+      >
+        <Text style={styles.title}>{t("whatDidYouSpot")}</Text>
         <TextInput
           value={car.make}
           onChangeText={(text) => setCar({ ...car, make: text })}
-          placeholder="Make"
+          placeholder={t("make")}
           placeholderTextColor="#98989e"
           style={styles.input}
         />
         <TextInput
           value={car.model}
           onChangeText={(text) => setCar({ ...car, model: text })}
-          placeholder="Model"
+          placeholder={t("model")}
           placeholderTextColor="#98989e"
           style={styles.input}
         />
         <TextInput
           value={car.generation}
           onChangeText={(text) => setCar({ ...car, generation: text })}
-          placeholder="Generation"
+          placeholder={t("generation")}
           placeholderTextColor="#98989e"
           style={styles.input}
         />
         <TextInput
           value={car.color}
           onChangeText={(text) => setCar({ ...car, color: text })}
-          placeholder="Color (required)"
+          placeholder={t("color")}
           placeholderTextColor="#98989e"
           style={styles.input}
         />
         <View style={buttonStyles.buttonRow}>
-        {/* Add photo button only visible when no photo is uploaded and uploading */}
-        {!uploadedImageUrl && (
+          {/* Add photo button only visible when no photo is uploaded and uploading */}
+          {!uploadedImageUrl && (
             <TouchableOpacity
               style={buttonStyles.button}
               onPress={pickImage}
               disabled={isUploading}
             >
-              <Ionicons name={"images-outline"} size={20} color={
-              isUploading
-                ? "#818181" 
-                : "#007aff"
-            }/>
+              <Ionicons
+                name={"images-outline"}
+                size={20}
+                color={isUploading ? "#818181" : "#007aff"}
+              />
               <Text
-            style={[
-              buttonStyles.buttonText,
-              (isUploading) &&
-                buttonStyles.disabledButtonText,
-            ]}
-          >Add photo</Text>
+                style={[
+                  buttonStyles.buttonText,
+                  isUploading && buttonStyles.disabledButtonText,
+                ]}
+              >
+                {t("addPhoto")}
+              </Text>
             </TouchableOpacity>
           )}
 
@@ -244,31 +268,34 @@ export default function AddCar() {
               onPress={deleteImage}
               disabled={isDeleting}
             >
-              <Ionicons name="trash-outline" size={20} color={
-              isDeleting
-                ? "#818181" 
-                : "#ff3b30"
-            } />
-              <Text style={[
-              buttonStyles.deleteButtonText,
-              (isDeleting) &&
-                buttonStyles.disabledButtonText,
-            ]}>Remove photo</Text>
+              <Ionicons
+                name="trash-outline"
+                size={20}
+                color={isDeleting ? "#818181" : "#ff3b30"}
+              />
+              <Text
+                style={[
+                  buttonStyles.deleteButtonText,
+                  isDeleting && buttonStyles.disabledButtonText,
+                ]}
+              >
+                {t("removePhoto")}
+              </Text>
             </TouchableOpacity>
           )}
-        <TouchableOpacity
-          style={buttonStyles.button}
-          onPress={() => setShowMap(!showMap)}
-        >
-          <Ionicons
-            name={showMap ? "close" : "location-outline"}
-            size={20}
-            color="#3b82f7"
-          />
-          <Text style={buttonStyles.buttonText}>
-            {showMap ? "Close map" : "Add location"}
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={buttonStyles.button}
+            onPress={handleAddLocation}
+          >
+            <Ionicons
+              name={showMap ? "close" : "location-outline"}
+              size={20}
+              color="#3b82f7"
+            />
+            <Text style={buttonStyles.buttonText}>
+              {showMap ? t("closeMap") : t("addLocation")}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Show ActivityIndicator while uploading*/}
@@ -338,12 +365,10 @@ export default function AddCar() {
           disabled={isUploading || isDeleting || !car.color}
         >
           <Ionicons
-            name="checkmark"
+            name="download-outline"
             size={20}
             color={
-              isUploading || isDeleting || !car.color
-                ? "#818181" 
-                : "#007aff"
+              isUploading || isDeleting || !car.color ? "#818181" : "#007aff"
             }
           />
           <Text
@@ -353,7 +378,7 @@ export default function AddCar() {
                 buttonStyles.disabledButtonText,
             ]}
           >
-            Save car
+            {t("saveCar")}
           </Text>
         </TouchableOpacity>
       </ScrollView>

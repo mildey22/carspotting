@@ -67,6 +67,7 @@ const buttonStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 10,
+    marginBottom: 1,
   }
 });
 
