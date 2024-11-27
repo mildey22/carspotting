@@ -20,10 +20,10 @@
   "areYouSureRemoveCar": "Är du säker på att du vill ta bort den här bilen?",
   "carSaved": "Bil sparad!",
 
-  "errorRemovingPhoto": "Fel vid borttagning av foto: ",
-  "errorUploadingPhoto": "Det gick inte att ladda upp fotot: ",
-  "errorSavingCar": "Felbesparande bil: ",
-  "errorRemovingCarOrImage": "Fel vid borttagning av bil eller foto: ",
+  "errorRemovingPhoto": "Fel vid borttagning av foto: {{errorMessage}}",
+  "errorUploadingPhoto": "Det gick inte att ladda upp fotot: {{errorMessage}}",
+  "errorSavingCar": "Felbesparande bil: {{errorMessage}}",
+  "errorRemovingCarOrImage": "Fel vid borttagning av bil eller foto: {{errorMessage}}",
   "colorRequired": "Fyll i färg.",
 
   "imageFullSize": "Tryck på fotot för att visa full storlek.",

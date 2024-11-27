@@ -1,0 +1,44 @@
+{
+    "newCar": "",
+    "spotted": "",
+    "settings": "",
+  
+    "language": "",
+  
+    "whatDidYouSpot": "",
+    "noCarsFound": "",
+  
+    "make": "",
+    "model": "",
+    "generation": "",
+    "color": "",
+  
+    "confirmRemove": "",
+    "error": "",
+    "success": "",
+    "areYouSureRemoveImage": "",
+    "areYouSureRemoveCar": "",
+    "carSaved": "",
+  
+    "errorRemovingPhoto": " {{errorMessage}}",
+    "errorUploadingPhoto": " {{errorMessage}}",
+    "errorSavingCar": " {{errorMessage}}",
+    "errorRemovingCarOrImage": " {{errorMessage}}",
+    "colorRequired": "",
+  
+    "imageFullSize": "",
+    "displayColor": " ",
+  
+    "cancel": "",
+    "remove": "",
+    "addPhoto": "",
+    "removePhoto": "",
+    "closeMap": "",
+    "addLocation": "",
+    "saveCar": "",
+    "hidePhoto": "",
+    "viewPhoto": "",
+    "hideLocation": "",
+    "viewLocation": ""
+  }
+  
