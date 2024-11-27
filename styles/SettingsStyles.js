@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
@@ -11,64 +11,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
-    color: "#FFFFFF",
+    color: "#ffffff",
     fontWeight: "bold",
   },
   picker: {
     width: '80%',
     color: '#ffffff',
     backgroundColor: '#1c1c1e',
-  },
-  card: {
-    marginTop: 10,
-    marginBottom: 10,
-    padding: 10,
-    borderWidth: 0.8,
-    borderColor: "#313134",
-    borderRadius: 25,
-    backgroundColor: "#000000",
-  },
-  emptyListText: {
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 5,
-    color: "#FFFFFF",
-  },
-  text: {
-    fontSize: 16,
-    marginBottom: 5,
-    color: "#8b8b90",
-  },
-  imageText: {
-    fontSize: 16,
-    marginBottom: 5,
-    textAlign: "center",
-    color: "#8b8b90",
-  },
-  carText: {
-    fontSize: 22,
-    marginBottom: 5,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-  },
-  map: {
-    width: "100%",
-    height: 250,
-    marginBottom: 20,
-  },
-  carImage: {
-    width: "100%",
-    height: 300,
-    marginVertical: 10,
-  },
-  bigThrobber: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingThrobber: {
-    alignSelf: "center",
-    marginVertical: 10,
+    borderRadius: 15,
   },
 });
 

@@ -1,0 +1,43 @@
+{
+  "newCar": "Ny bil",
+  "spotted": "Seda bilar",
+  "settings": "Inställningar",
+
+  "language": "Språk",
+
+  "whatDidYouSpot": "Vad har du sett idag? 👀",
+  "noCarsFound": "Inga bilar hittades! Dags att leta? 👀",
+
+  "make": "Märke",
+  "model": "Modell",
+  "generation": "Generation",
+  "color": "Färg (obligatoriskt)",
+
+  "confirmRemove": "Bekräfta borttagelse",
+  "error": "Fel",
+  "success": "Framgång",
+  "areYouSureRemoveImage": "Är du säker på att du vill ta bort det här fotot?",
+  "areYouSureRemoveCar": "Är du säker på att du vill ta bort den här bilen?",
+  "carSaved": "Bil sparad!",
+
+  "errorRemovingPhoto": "Fel vid borttagning av foto: ",
+  "errorUploadingPhoto": "Det gick inte att ladda upp fotot: ",
+  "errorSavingCar": "Felbesparande bil: ",
+  "errorRemovingCarOrImage": "Fel vid borttagning av bil eller foto: ",
+  "colorRequired": "Fyll i färg.",
+
+  "imageFullSize": "Tryck på fotot för att visa full storlek.",
+  "displayColor": "Färg: ",
+
+  "cancel": "Återkalla",
+  "remove": "Ta bort",
+  "addPhoto": "Lägg till foto",
+  "removePhoto": "Ta bort foto",
+  "closeMap": "Stäng karta",
+  "addLocation": "Lägg till plats",
+  "saveCar": "Spara bil",
+  "hidePhoto": "Göm foto",
+  "viewPhoto": "Visa foto",
+  "hideLocation": "Dölj plats",
+  "viewLocation": "Visa plats"
+}

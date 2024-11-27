@@ -3,6 +3,8 @@ import { ScrollView, Text } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import i18n from "../i18n";
 
+import styles from "../styles/SettingsStyles";
+
 export default function Settings() {
 
 
@@ -18,11 +20,16 @@ export default function Settings() {
   }, [i18n.language]);
 
   return (
-    <ScrollView>
-      <Text>{i18n.t("language")}</Text>
+    <ScrollView
+    contentContainerStyle={styles.container}
+        style={{ backgroundColor: "#000000" }}
+    >
+      <Text style={styles.title}>{i18n.t("language")}</Text>
       <Picker
         selectedValue={selectedLanguage}
         onValueChange={handleLanguageChange}
+        style={styles.picker}
+        itemStyle={{ color: '#ffffff' }}
       >
         <Picker.Item label="English" value="en" />
         <Picker.Item label="Suomi" value="fi" />
