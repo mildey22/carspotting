@@ -32,7 +32,8 @@ export default function Settings() {
         itemStyle={{ color: '#ffffff' }}
       >
         <Picker.Item label="English" value="en" />
-        <Picker.Item label="Suomi" value="fi" />
+        <Picker.Item label="suomi" value="fi" />
+        <Picker.Item label="svenska" value="se" />
       </Picker>
     </ScrollView>
   );
