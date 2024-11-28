@@ -55,6 +55,9 @@ export default function CarList() {
     `${car.make} ${car.model}`.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Clear search bar
+  const clearSearchQuery = () => setSearchQuery("");
+
   const toggleMap = (index) => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
@@ -120,13 +123,21 @@ export default function CarList() {
         />
       ) : (
         <>
-          <TextInput
-            style={styles.searchInput}
-            placeholder={t("search")}
-            placeholderTextColor="#98989e"
-            value={searchQuery}
-            onChangeText={(text) => setSearchQuery(text)}
-          />
+         <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder={t("search")}
+              placeholderTextColor="#98989e"
+              value={searchQuery}
+              onChangeText={(text) => setSearchQuery(text)}
+            />
+            {/* If search bar isn't empty, render the clear search bar button */}
+            {searchQuery.length > 0 && (
+              <TouchableOpacity onPress={clearSearchQuery} style={buttonStyles.clearButton}>
+                <Ionicons name="close-circle" size={21} color="#98989e" />
+              </TouchableOpacity>
+            )}
+          </View>
           {filteredCars.length === 0 ? (
             <Text style={styles.emptyListText}>{t("noCarsFound")}</Text>
           ) : (

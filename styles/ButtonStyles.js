@@ -68,6 +68,9 @@ const buttonStyles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 7,
   },
+  clearButton: {
+    marginLeft: 5,
+  },  
   disabledButton: {
     backgroundColor: '#1c1c1e', 
   },

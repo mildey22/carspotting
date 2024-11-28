@@ -37,16 +37,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
   },
-  searchInput: {
-    height: 40,
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#1c1c1e",
+    marginBottom: 10,
+    marginTop: 10,
     borderWidth: 1,
     borderRadius: 15,
     paddingHorizontal: 10,
-    marginBottom: 10,
-    marginTop: 10,
-    color: "#FFFFFF",
-    backgroundColor: "#1c1c1e",
+    height: 40,
+  },
+  searchInput: {
+    flex: 1,
     fontSize: 17,
+    color: "#FFFFFF",
   },
   map: {
     width: "100%",
