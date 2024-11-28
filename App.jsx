@@ -2,18 +2,20 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useTranslation } from "react-i18next";
 
 import AddCar from "./screens/AddCar";
 import CarList from "./screens/CarList";
 import Settings from "./screens/Settings";
-import { useTranslation } from "react-i18next";
+import { ThemeProvider, useTheme } from "./context/ThemeContext";
 
 const Tab = createBottomTabNavigator();
 
 // Tried changing App.js into typescript but was met with an error on <Tab.Navigator> that I couldn't resolve
 
-export default function App() {
+function AppContent() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   const newCarLabel = t("newCar");
   const spottedLabel = t("spotted");
@@ -21,7 +23,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style={theme.StatusBarStyle} />
       <NavigationContainer>
         <Tab.Navigator
           screenOptions={({ route }) => ({
@@ -38,16 +40,16 @@ export default function App() {
 
               return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: "#3b82f7", // Active tab icon and label color
-            tabBarInactiveTintColor: "#979797", // Inactive tab icon and label color
+            tabBarActiveTintColor: theme.tabBarActiveTintColor,
+            tabBarInactiveTintColor: theme.tabBarInactiveTintColor,
             tabBarStyle: {
-              backgroundColor: "#212124", // Background color of the tab bar
+              backgroundColor: theme.tabBarBackgroundColor, 
               borderTopWidth: 0,
             },
             headerStyle: {
-              backgroundColor: "#212124", // Header background color
+              backgroundColor: theme.headerBackgroundColor,
             },
-            headerTintColor: "#FFFFFF", // Header text color
+            headerTintColor: theme.headerTextColor, 
           })}
         >
           <Tab.Screen name={newCarLabel} component={AddCar} />
@@ -56,5 +58,13 @@ export default function App() {
         </Tab.Navigator>
       </NavigationContainer>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }
