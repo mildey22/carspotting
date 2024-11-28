@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 
 const buttonStyles = StyleSheet.create({
-  button: {
+  addCarButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -11,6 +11,16 @@ const buttonStyles = StyleSheet.create({
     borderRadius: 150,
     marginBottom: 10,
     marginHorizontal: 5,
+  },
+  carListButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1c1c1e',
+    padding: 10,
+    borderRadius: 150,
+    marginBottom: 10,
+    //marginHorizontal: 5,
   },
   buttonText: {
     color: '#3b82f7',
@@ -34,21 +44,23 @@ const buttonStyles = StyleSheet.create({
   },
   deleteCarButton: {
     flexDirection: 'row',
-    marginBottom: 5,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1c1c1e',
     padding: 10,
-    borderRadius: 150,
-    backgroundColor: "#1c1c1e",
+    borderRadius: 100,
+    marginBottom: 10,
+    //marginHorizontal: 5,
   },
-  deleteButton: {
+  deleteImageButton: {
     flexDirection: 'row',
-    marginBottom: 5,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1c1c1e',
     padding: 10,
     borderRadius: 150,
-    backgroundColor: "#1c1c1e",
+    marginBottom: 10,
+    marginHorizontal: 5,
   },
   deleteButtonText: {
     color: "#ff3b30",

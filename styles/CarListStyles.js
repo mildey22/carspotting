@@ -37,6 +37,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
   },
+  searchInput: {
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    marginTop: 10,
+    color: "#FFFFFF",
+    backgroundColor: "#1c1c1e",
+    fontSize: 17,
+  },
   map: {
     width: "100%",
     height: 250,

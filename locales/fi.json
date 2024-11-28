@@ -12,6 +12,7 @@
   "model": "Malli",
   "generation": "Sukupolvi",
   "color": "Väri (pakollinen)",
+  "search": "Hae...",
 
   "confirmRemove": "Varmista poisto",
   "error": "Virhe",

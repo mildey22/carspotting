@@ -241,7 +241,7 @@ export default function AddCar() {
           {/* Add photo button only visible when no photo is uploaded and uploading */}
           {!uploadedImageUrl && (
             <TouchableOpacity
-              style={buttonStyles.button}
+              style={buttonStyles.addCarButton}
               onPress={pickImage}
               disabled={isUploading}
             >
@@ -264,7 +264,7 @@ export default function AddCar() {
           {/* Show "Remove photo" button when a photo is uploaded, not uploading or deleting */}
           {uploadedImageUrl && (
             <TouchableOpacity
-              style={buttonStyles.button}
+              style={buttonStyles.deleteImageButton}
               onPress={deleteImage}
               disabled={isDeleting}
             >
@@ -284,7 +284,7 @@ export default function AddCar() {
             </TouchableOpacity>
           )}
           <TouchableOpacity
-            style={buttonStyles.button}
+            style={buttonStyles.addCarButton}
             onPress={handleAddLocation}
           >
             <Ionicons
