@@ -210,7 +210,7 @@ export default function AddCar() {
       <ScrollView
         contentContainerStyle={styles.container}
         ref={scrollViewRef}
-        style={theme.container}
+        style={{ backgroundColor: theme.backgroundColor }}
       >
         <Text style={theme.title}>{t("whatDidYouSpot")}</Text>
         <TextInput
@@ -306,7 +306,7 @@ export default function AddCar() {
         {isUploading && (
           <ActivityIndicator
             size="large"
-            color="#007aff"
+            color={theme.activityIndicatorColor}
             style={theme.loadingThrobber}
           />
         )}

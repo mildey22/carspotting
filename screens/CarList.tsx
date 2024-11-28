@@ -13,12 +13,12 @@ import {
 
 import MapView, { Marker } from "react-native-maps";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useTranslation } from "react-i18next";
 
-import styles from "../styles/CarListStyles";
-import buttonStyles from "../styles/ButtonStyles";
 import { app } from "../firebase/firebaseConfig";
 import { ICar } from "../types/api";
-import { useTranslation } from "react-i18next";
+import { ThemeProvider, useTheme } from "../context/ThemeContext";
+import styles from "../styles/CarListStyles";
 
 import { getDatabase, ref, onValue, remove } from "firebase/database";
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
@@ -32,6 +32,7 @@ export default function CarList() {
   const [searchQuery, setSearchQuery] = useState("");
   const database = getDatabase(app);
   const { t } = useTranslation();
+  const theme = useTheme();
 
   useEffect(() => {
     const carsRef = ref(database, "cars/");
@@ -114,18 +115,19 @@ export default function CarList() {
   };
 
   return (
-    <View style={styles.container}>
+    <ThemeProvider>
+    <View style={theme.carListContainer}>
       {loading ? (
         <ActivityIndicator
           size="large"
-          color="#007aff"
-          style={styles.bigThrobber}
+          color={theme.activityIndicatorColor}
+          style={theme.bigThrobber}
         />
       ) : (
         <>
-          <View style={styles.searchContainer}>
+          <View style={theme.searchContainer}>
             <TextInput
-              style={styles.searchInput}
+              style={theme.searchInput}
               placeholder={t("search")}
               placeholderTextColor="#98989e"
               value={searchQuery}
@@ -135,36 +137,36 @@ export default function CarList() {
             {searchQuery.length > 0 && (
               <TouchableOpacity
                 onPress={clearSearchQuery}
-                style={buttonStyles.clearButton}
+                style={theme.clearButton}
               >
                 <Ionicons name="close-circle" size={21} color="#98989e" />
               </TouchableOpacity>
             )}
           </View>
           {filteredCars.length === 0 ? (
-            <Text style={styles.emptyListText}>{t("noCarsFound")}</Text>
+            <Text style={theme.emptyListText}>{t("noCarsFound")}</Text>
           ) : (
             <FlatList
               data={filteredCars}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (
-                <View style={styles.card}>
+                <View style={theme.card}>
                   <Text>
-                    <Text style={styles.carText}>
+                    <Text style={theme.carText}>
                       {item.make} {item.model}{" "}
                     </Text>
-                    <Text style={styles.text}>
+                    <Text style={theme.text}>
                       {item.generation ? `(${item.generation})` : ""}
                     </Text>
                   </Text>
-                  <Text style={styles.text}>
+                  <Text style={theme.text}>
                     {t("displayColor")}
                     {item.color}
                   </Text>
-                  <View style={buttonStyles.buttonRow}>
+                  <View style={theme.buttonRow}>
                     {item.image && (
                       <TouchableOpacity
-                        style={buttonStyles.carListButton}
+                        style={theme.carListButton}
                         onPress={() => toggleImageVisibility(item.key)}
                       >
                         <Ionicons
@@ -174,7 +176,7 @@ export default function CarList() {
                           size={20}
                           color="#3b82f7"
                         />
-                        <Text style={buttonStyles.buttonText}>
+                        <Text style={theme.buttonText}>
                           {visibleImages[item.key]
                             ? t("hidePhoto")
                             : t("viewPhoto")}
@@ -183,7 +185,7 @@ export default function CarList() {
                     )}
                     {item.location?.latitude && item.location?.longitude && (
                       <TouchableOpacity
-                        style={buttonStyles.carListButton}
+                        style={theme.carListButton}
                         onPress={() => toggleMap(index)}
                       >
                         <Ionicons
@@ -195,7 +197,7 @@ export default function CarList() {
                           size={20}
                           color="#3b82f7"
                         />
-                        <Text style={buttonStyles.buttonText}>
+                        <Text style={theme.buttonText}>
                           {expandedIndex === index
                             ? t("hideLocation")
                             : t("viewLocation")}
@@ -203,7 +205,7 @@ export default function CarList() {
                       </TouchableOpacity>
                     )}
                     <TouchableOpacity
-                      style={buttonStyles.deleteCarButton}
+                      style={theme.deleteCarButton}
                       onPress={() => deleteCar(item.key, item.image)}
                     >
                       <Ionicons
@@ -219,7 +221,7 @@ export default function CarList() {
                         <ActivityIndicator
                           size="small"
                           color="#007aff"
-                          style={styles.loadingThrobber}
+                          style={theme.loadingThrobber}
                         />
                       )}
                       <TouchableOpacity
@@ -227,7 +229,7 @@ export default function CarList() {
                       >
                         <Image
                           source={{ uri: item.image }}
-                          style={styles.carImage}
+                          style={theme.carImage}
                           resizeMode="contain"
                           onLoadStart={() =>
                             setLoadingImages((prev) => ({
@@ -243,12 +245,12 @@ export default function CarList() {
                           }
                         />
                       </TouchableOpacity>
-                      <Text style={styles.imageText}>{t("imageFullSize")}</Text>
+                      <Text style={theme.imageText}>{t("imageFullSize")}</Text>
                     </View>
                   )}
                   {expandedIndex === index && item.location && (
                     <MapView
-                      style={styles.map}
+                      style={theme.carListMap}
                       initialRegion={{
                         latitude: item.location.latitude,
                         longitude: item.location.longitude,
@@ -272,5 +274,6 @@ export default function CarList() {
         </>
       )}
     </View>
+    </ThemeProvider>
   );
 }

@@ -1,9 +1,8 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  container: {
+  carListContainer: {
     flex: 1,
-    backgroundColor: "#000000",
   },
   card: {
     marginTop: 10,

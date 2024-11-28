@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { ScrollView, Text, Switch } from "react-native";
 import i18n from "../i18n";
 import { Picker } from "@react-native-picker/picker";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme, ThemeProvider } from "../context/ThemeContext";
 import styles from "../styles/SettingsStyles";
-import { lightTheme } from "../themes/light/app";
+import { lightTheme } from "../themes/lightTheme";
 
 export default function Settings() {
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
@@ -16,7 +16,7 @@ export default function Settings() {
   };
 
   const handleThemeToggle = (value) => {
-    toggleTheme(value ? "light" : "dark"); // Toggle between "light" and "dark"
+    toggleTheme(value ? "light" : "dark");
   };
 
   useEffect(() => {
@@ -24,18 +24,19 @@ export default function Settings() {
   }, [i18n.language]);
 
   return (
+    <ThemeProvider>
     <ScrollView
       contentContainerStyle={styles.container}
-      style={{ backgroundColor: theme.backgroundColor }} // Dynamically change backgroundColor
+      style={{ backgroundColor: theme.backgroundColor }}
     >
-       <Text style={[styles.title, { color: theme.headerTextColor }]}>
+       <Text style={theme.settingsTitle}>
         {i18n.t("language")}
       </Text>
       <Picker
         selectedValue={selectedLanguage}
         onValueChange={handleLanguageChange}
-        style={[styles.picker, { color: theme.headerTextColor }]}
-        itemStyle={{ color: theme.headerTextColor }}
+        style={theme.picker}
+        itemStyle={{ color: theme.pickerColor }}
       >
         <Picker.Item label="English" value="en" />
         <Picker.Item label="Suomi" value="fi" />
@@ -44,15 +45,16 @@ export default function Settings() {
         <Picker.Item label="Magyar" value="hu" />
       </Picker>
 
-      <Text style={[styles.title, { color: theme.headerTextColor }]}>
+      <Text style={theme.settingsTitle}>
         {i18n.t("appearance")}
       </Text>
       <Switch
-        value={theme === lightTheme} // Check if the current theme is light
-        onValueChange={handleThemeToggle} // Toggle theme on value change
-        thumbColor={theme === "light" ? "#fff" : "#000"} // Light/dark thumb color for the switch
-        trackColor={{ false: "#767577", true: "#3b82f7" }} // Track color change
+        value={theme === lightTheme}
+        onValueChange={handleThemeToggle} 
+        thumbColor={theme.thumbColor} 
+        trackColor={theme.trackColor} 
       />
     </ScrollView>
+    </ThemeProvider>
   );
 }
