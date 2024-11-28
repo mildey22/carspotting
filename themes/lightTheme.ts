@@ -23,7 +23,7 @@ export const lightTheme = {
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#1c1c1e",
+    backgroundColor: "#e3e3e8",
     marginBottom: 10,
     marginTop: 10,
     borderRadius: 15,
@@ -50,7 +50,8 @@ export const lightTheme = {
   searchInput: {
     flex: 1,
     fontSize: 17,
-    color: "#FFFFFF",
+    color: "#000000",
+    backgroundColor: "#e3e3e8",
   },
   map: {
     width: "100%",
@@ -82,7 +83,7 @@ export const lightTheme = {
     fontSize: 16,
     textAlign: "center",
     marginTop: 5,
-    color: "#FFFFFF",
+    color: "#000000",
   },
   carListText: {
     fontSize: 16,
@@ -99,7 +100,7 @@ export const lightTheme = {
     fontSize: 22,
     marginBottom: 5,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "#000000",
   },
   loadingThrobber: {
     marginTop: 10,
@@ -109,10 +110,10 @@ export const lightTheme = {
     marginTop: 10,
     marginBottom: 10,
     padding: 10,
-    borderWidth: 0.8,
-    borderColor: "#313134",
+    //borderWidth: 0.8,
+    //borderColor: "#313134",
     borderRadius: 25,
-    backgroundColor: "#000000",
+    backgroundColor: "#ffffff",
   },
   carImage: {
     width: "100%",

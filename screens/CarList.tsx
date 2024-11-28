@@ -18,7 +18,6 @@ import { useTranslation } from "react-i18next";
 import { app } from "../firebase/firebaseConfig";
 import { ICar } from "../types/api";
 import { ThemeProvider, useTheme } from "../context/ThemeContext";
-import styles from "../styles/CarListStyles";
 
 import { getDatabase, ref, onValue, remove } from "firebase/database";
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
@@ -32,7 +31,7 @@ export default function CarList() {
   const [searchQuery, setSearchQuery] = useState("");
   const database = getDatabase(app);
   const { t } = useTranslation();
-  const theme = useTheme();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const carsRef = ref(database, "cars/");
