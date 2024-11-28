@@ -17,9 +17,9 @@ import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import styles from "../styles/AddCarStyles";
-import buttonStyles from "../styles/ButtonStyles";
 import { app } from "../firebase/firebaseConfig";
 import { useTranslation } from "react-i18next";
+import { ThemeProvider, useTheme } from "../context/ThemeContext";
 
 import { getDatabase, ref, push } from "firebase/database";
 import {
@@ -52,6 +52,7 @@ export default function AddCar() {
   const database = getDatabase(app);
   const scrollViewRef = useRef(null);
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   // Upload image to Firebase
   const uploadImage = async (uri, name) => {
@@ -205,45 +206,46 @@ export default function AddCar() {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <ThemeProvider>
       <ScrollView
         contentContainerStyle={styles.container}
         ref={scrollViewRef}
-        style={{ backgroundColor: "#000000" }}
+        style={theme.container}
       >
-        <Text style={styles.title}>{t("whatDidYouSpot")}</Text>
+        <Text style={theme.title}>{t("whatDidYouSpot")}</Text>
         <TextInput
           value={car.make}
           onChangeText={(text) => setCar({ ...car, make: text })}
           placeholder={t("make")}
           placeholderTextColor="#98989e"
-          style={styles.input}
+          style={theme.input}
         />
         <TextInput
           value={car.model}
           onChangeText={(text) => setCar({ ...car, model: text })}
           placeholder={t("model")}
           placeholderTextColor="#98989e"
-          style={styles.input}
+          style={theme.input}
         />
         <TextInput
           value={car.generation}
           onChangeText={(text) => setCar({ ...car, generation: text })}
           placeholder={t("generation")}
           placeholderTextColor="#98989e"
-          style={styles.input}
+          style={theme.input}
         />
         <TextInput
           value={car.color}
           onChangeText={(text) => setCar({ ...car, color: text })}
           placeholder={t("color")}
           placeholderTextColor="#98989e"
-          style={styles.input}
+          style={theme.input}
         />
-        <View style={buttonStyles.buttonRow}>
+        <View style={theme.buttonRow}>
           {/* Add photo button only visible when no photo is uploaded and uploading */}
           {!uploadedImageUrl && (
             <TouchableOpacity
-              style={buttonStyles.addCarButton}
+              style={theme.addCarButton}
               onPress={pickImage}
               disabled={isUploading}
             >
@@ -254,8 +256,8 @@ export default function AddCar() {
               />
               <Text
                 style={[
-                  buttonStyles.buttonText,
-                  isUploading && buttonStyles.disabledButtonText,
+                  theme.buttonText,
+                  isUploading && theme.disabledButtonText,
                 ]}
               >
                 {t("addPhoto")}
@@ -266,7 +268,7 @@ export default function AddCar() {
           {/* Show "Remove photo" button when a photo is uploaded, not uploading or deleting */}
           {uploadedImageUrl && (
             <TouchableOpacity
-              style={buttonStyles.deleteImageButton}
+              style={theme.deleteImageButton}
               onPress={deleteImage}
               disabled={isDeleting}
             >
@@ -277,8 +279,8 @@ export default function AddCar() {
               />
               <Text
                 style={[
-                  buttonStyles.deleteButtonText,
-                  isDeleting && buttonStyles.disabledButtonText,
+                  theme.deleteButtonText,
+                  isDeleting && theme.disabledButtonText,
                 ]}
               >
                 {t("removePhoto")}
@@ -286,7 +288,7 @@ export default function AddCar() {
             </TouchableOpacity>
           )}
           <TouchableOpacity
-            style={buttonStyles.addCarButton}
+            style={theme.addCarButton}
             onPress={handleAddLocation}
           >
             <Ionicons
@@ -294,7 +296,7 @@ export default function AddCar() {
               size={20}
               color="#3b82f7"
             />
-            <Text style={buttonStyles.buttonText}>
+            <Text style={theme.buttonText}>
               {showMap ? t("closeMap") : t("addLocation")}
             </Text>
           </TouchableOpacity>
@@ -305,7 +307,7 @@ export default function AddCar() {
           <ActivityIndicator
             size="large"
             color="#007aff"
-            style={styles.loadingThrobber}
+            style={theme.loadingThrobber}
           />
         )}
 
@@ -322,13 +324,13 @@ export default function AddCar() {
           <ActivityIndicator
             size="large"
             color="#0000ff"
-            style={styles.loadingThrobber}
+            style={theme.loadingThrobber}
           />
         )}
 
         {showMap && (
           <MapView
-            style={styles.map}
+            style={theme.map}
             onPress={(e) =>
               setCar({
                 ...car,
@@ -359,9 +361,9 @@ export default function AddCar() {
         <TouchableOpacity
           onPress={handleSave}
           style={[
-            buttonStyles.saveButton,
+            theme.saveButton,
             (isUploading || isDeleting || !car.color) &&
-              buttonStyles.disabledButton,
+              theme.disabledButton,
           ]}
           // Disable the button if uploading or deleting
           disabled={isUploading || isDeleting || !car.color}
@@ -375,15 +377,16 @@ export default function AddCar() {
           />
           <Text
             style={[
-              buttonStyles.saveButtonText,
+              theme.saveButtonText,
               (isUploading || isDeleting || !car.color) &&
-                buttonStyles.disabledButtonText,
+                theme.disabledButtonText,
             ]}
           >
             {t("saveCar")}
           </Text>
         </TouchableOpacity>
       </ScrollView>
+      </ThemeProvider>
     </TouchableWithoutFeedback>
   );
 }

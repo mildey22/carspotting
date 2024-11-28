@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
@@ -14,8 +13,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingLeft: 10,
     marginBottom: 15,
-    backgroundColor: "#1c1c1e",
-    color: "#FFFFFF",
     fontSize: 17,
   },
   map: {
@@ -30,7 +27,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
-    color: "#FFFFFF",
     fontWeight: "bold",
   },
   loadingThrobber: {
