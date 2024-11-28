@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loadingThrobber: {
-    alignSelf: 'center',
+    alignSelf: "center",
     marginVertical: 10,
   },
 });

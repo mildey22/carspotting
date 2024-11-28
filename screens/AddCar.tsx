@@ -30,6 +30,8 @@ import {
   deleteObject,
 } from "firebase/storage";
 
+// Plan was to seperate the different functions into their own files but couldnt unfortunately get this to work. Looks a bit messy right now but it is what it is.
+
 export default function AddCar() {
   const [car, setCar] = useState({
     make: "",
@@ -165,7 +167,7 @@ export default function AddCar() {
   const handleAddLocation = () => {
     setShowMap(!showMap);
     if (!showMap && scrollViewRef.current) {
-      // Tried to make page scroll to the bottom to display map nicely but couldnt get this to work
+      // Tried to make page scroll to the bottom once the add location button is pressed to display map nicely but couldnt get this to work
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
   };

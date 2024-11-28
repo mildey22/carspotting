@@ -123,7 +123,7 @@ export default function CarList() {
         />
       ) : (
         <>
-         <View style={styles.searchContainer}>
+          <View style={styles.searchContainer}>
             <TextInput
               style={styles.searchInput}
               placeholder={t("search")}
@@ -133,7 +133,10 @@ export default function CarList() {
             />
             {/* If search bar isn't empty, render the clear search bar button */}
             {searchQuery.length > 0 && (
-              <TouchableOpacity onPress={clearSearchQuery} style={buttonStyles.clearButton}>
+              <TouchableOpacity
+                onPress={clearSearchQuery}
+                style={buttonStyles.clearButton}
+              >
                 <Ionicons name="close-circle" size={21} color="#98989e" />
               </TouchableOpacity>
             )}

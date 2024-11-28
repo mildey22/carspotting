@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   loadingThrobber: {
-    marginTop: 10, 
+    marginTop: 10,
     marginBottom: 10,
   },
 });

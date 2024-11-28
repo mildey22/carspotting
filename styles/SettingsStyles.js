@@ -15,9 +15,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   picker: {
-    width: '80%',
-    color: '#ffffff',
-    backgroundColor: '#1c1c1e',
+    width: "80%",
+    color: "#ffffff",
+    backgroundColor: "#1c1c1e",
     borderRadius: 15,
   },
 });
