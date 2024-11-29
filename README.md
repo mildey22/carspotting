@@ -73,6 +73,7 @@ EXPO_PUBLIC_FIREBASE_APP_ID=your-firebase-app-id
 - `App.jsx` should be converted into a `.tsx` file, but there's an problem with the `<Tab.Navigator>` component when doing so.
 - Most functions should be decentralized into a seperate `components` directory, but this requires extensive reworking of the logic.
 - Opening the map in `AddCar.tsx` should scroll the user to the bottom of the page, revealing the map fully, but this doesn't happen.
+- Pressing the clear input field button on the input fields in `AddCar.tsx` closes the keyboard first before the button is pressable.
 
 ## Credits
 

@@ -13,7 +13,7 @@
   "model": "Modell",
   "generation": "Generation",
   "color": "Färg (obligatoriskt)",
-  "search": "Sök...",
+  "search": "Sök",
 
   "confirmRemove": "Bekräfta borttagelse",
   "error": "Fel",

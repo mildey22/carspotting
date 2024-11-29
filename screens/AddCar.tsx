@@ -203,6 +203,7 @@ export default function AddCar() {
     }
   };
 
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <ThemeProvider>
@@ -212,34 +213,74 @@ export default function AddCar() {
         style={{ backgroundColor: theme.backgroundColor }}
       >
         <Text style={theme.title}>{t("whatDidYouSpot")}</Text>
+        <View style={theme.inputContainer}>
         <TextInput
           value={car.make}
           onChangeText={(text) => setCar({ ...car, make: text })}
           placeholder={t("make")}
-          placeholderTextColor="#98989e"
+          placeholderTextColor={theme.placeholderTextColor}
           style={theme.input}
         />
+        {car.make.length > 0 && (
+              <TouchableOpacity
+                style={theme.clearButton}
+                onPress={() => setCar({ ...car, make: "" })}
+              >
+                <Ionicons name="close-circle" size={21} color={theme.closeIconColor} />
+              </TouchableOpacity>
+            )}
+        </View>
+        <View style={theme.inputContainer}>
         <TextInput
           value={car.model}
           onChangeText={(text) => setCar({ ...car, model: text })}
           placeholder={t("model")}
-          placeholderTextColor="#98989e"
+          placeholderTextColor={theme.placeholderTextColor}
           style={theme.input}
         />
+        {car.model.length > 0 && (
+              <TouchableOpacity
+                style={theme.clearButton}
+                onPress={() => setCar({ ...car, model: "" })}
+              >
+                <Ionicons name="close-circle" size={21} color={theme.closeIconColor} />
+              </TouchableOpacity>
+            )}
+        </View>
+        <View style={theme.inputContainer}>
         <TextInput
           value={car.generation}
           onChangeText={(text) => setCar({ ...car, generation: text })}
           placeholder={t("generation")}
-          placeholderTextColor="#98989e"
+          placeholderTextColor={theme.placeholderTextColor}
           style={theme.input}
         />
+        {car.generation.length > 0 && (
+              <TouchableOpacity
+                style={theme.clearButton}
+                onPress={() => setCar({ ...car, generation: "" })}
+              >
+                <Ionicons name="close-circle" size={21} color={theme.closeIconColor} />
+              </TouchableOpacity>
+            )}
+        </View>
+        <View style={theme.inputContainer}>
         <TextInput
           value={car.color}
           onChangeText={(text) => setCar({ ...car, color: text })}
           placeholder={t("color")}
-          placeholderTextColor="#98989e"
+          placeholderTextColor={theme.placeholderTextColor}
           style={theme.input}
         />
+        {car.color.length > 0 && (
+              <TouchableOpacity
+                style={theme.clearButton}
+                onPress={() => setCar({ ...car, color: "" })}
+              >
+                <Ionicons name="close-circle" size={21} color={theme.closeIconColor} />
+              </TouchableOpacity>
+            )}
+        </View>
         <View style={theme.buttonRow}>
           {/* Add photo button only visible when no photo is uploaded and uploading */}
           {!uploadedImageUrl && (

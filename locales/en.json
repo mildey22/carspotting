@@ -13,7 +13,7 @@
   "model": "Model",
   "generation": "Generation",
   "color": "Color (required)",
-  "search": "Search...",
+  "search": "Search",
 
   "confirmRemove": "Confirm remove",
   "error": "Error",

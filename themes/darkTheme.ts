@@ -10,9 +10,15 @@ export const darkTheme = {
   pickerColor: "#ffffff",
   thumbColor: "#ffffff",
   trackColor: "#39393d",
+  closeIconColor: "#98989e",
+  searchIconColor: "#98979e",
+  placeholderTextColor: "#98989e",
+
+  searchIcon: {
+    marginRight: 5,
+  },
   addCarContainer: {
     flexGrow: 1,
-    //backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
@@ -33,26 +39,34 @@ export const darkTheme = {
     paddingHorizontal: 10,
     height: 40,
   },
+  searchInput: {
+    flex: 1,
+    fontSize: 17,
+    color: "#FFFFFF",
+  },
   settingsContainer: {
     backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
   },
-  input: {
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
     width: "90%",
-    height: 40,
-    borderRadius: 15,
-    paddingLeft: 10,
-    marginBottom: 15,
     backgroundColor: "#1c1c1e",
-    color: "#FFFFFF",
-    fontSize: 17,
+    marginBottom: 10,
+    marginTop: 10,
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    height: 40,
   },
-  searchInput: {
+  input: {
     flex: 1,
     fontSize: 17,
     color: "#FFFFFF",
+    backgroundColor: "#1c1c1e",
   },
   map: {
     width: "100%",

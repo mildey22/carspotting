@@ -124,10 +124,11 @@ export default function CarList() {
       ) : (
         <>
           <View style={theme.searchContainer}>
+            <Ionicons name="search" size={19} color={theme.searchIconColor} style={theme.searchIcon}/>
             <TextInput
               style={theme.searchInput}
               placeholder={t("search")}
-              placeholderTextColor="#98989e"
+              placeholderTextColor={theme.placeholderTextColor}
               value={searchQuery}
               onChangeText={(text) => setSearchQuery(text)}
             />
@@ -137,7 +138,7 @@ export default function CarList() {
                 onPress={clearSearchQuery}
                 style={theme.clearButton}
               >
-                <Ionicons name="close-circle" size={21} color="#98989e" />
+                <Ionicons name="close-circle" size={21} color={theme.closeIconColor} />
               </TouchableOpacity>
             )}
           </View>
