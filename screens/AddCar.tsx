@@ -16,7 +16,6 @@ import MapView, { Marker } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import styles from "../styles/AddCarStyles";
 import { app } from "../firebase/firebaseConfig";
 import { useTranslation } from "react-i18next";
 import { ThemeProvider, useTheme } from "../context/ThemeContext";
@@ -30,7 +29,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 
-// Plan was to seperate the different functions into their own files but couldnt unfortunately get this to work. Looks a bit messy right now but it is what it is.
+// Plan was to seperate the different functions into their own files but couldn't unfortunately get this to work. Looks a bit messy right now but it is what it is.
 
 export default function AddCar() {
   const [car, setCar] = useState({
@@ -168,7 +167,7 @@ export default function AddCar() {
   const handleAddLocation = () => {
     setShowMap(!showMap);
     if (!showMap && scrollViewRef.current) {
-      // Tried to make page scroll to the bottom once the add location button is pressed to display map nicely but couldnt get this to work
+      // Tried to make page scroll to the bottom once the add location button is pressed to display map nicely but couldn't get this to work
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
   };
@@ -208,7 +207,7 @@ export default function AddCar() {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <ThemeProvider>
       <ScrollView
-        contentContainerStyle={styles.container}
+        contentContainerStyle={theme.addCarContainer}
         ref={scrollViewRef}
         style={{ backgroundColor: theme.backgroundColor }}
       >

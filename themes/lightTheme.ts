@@ -2,6 +2,7 @@ export const lightTheme = {
   tabBarActiveTintColor: "#007afe",
   tabBarInactiveTintColor: "#979797",
   tabBarBackgroundColor: "#ffffff",
+  tabBarBorderWidth: 1,
   headerBackgroundColor: "#ffffff",
   headerTextColor: "#000000",
   statusBarStyle: "dark",
@@ -11,7 +12,6 @@ export const lightTheme = {
   trackColor: "#39393d",
   addCarContainer: {
     flexGrow: 1,
-    //backgroundColor: "#f2f2f7",
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
@@ -23,6 +23,8 @@ export const lightTheme = {
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
+    alignSelf: "center",
+    width: "90%",
     backgroundColor: "#e3e3e8",
     marginBottom: 10,
     marginTop: 10,
@@ -31,7 +33,6 @@ export const lightTheme = {
     height: 40,
   },
   settingsContainer: {
-    flexGrow: 1,
     backgroundColor: "#f2f2f7",
     alignItems: "center",
     justifyContent: "center",
@@ -63,6 +64,22 @@ export const lightTheme = {
     height: 250,
     marginBottom: 20,
   },
+  card: {
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 25,
+    backgroundColor: "#ffffff",
+  },
+  settingsCard: {
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+    width: "90%",
+    alignItems: "center",
+    borderRadius: 10,
+    backgroundColor: "#ffffff",
+  },
   title: {
     fontSize: 24,
     marginBottom: 20,
@@ -71,7 +88,8 @@ export const lightTheme = {
   },
   settingsTitle: {
     fontSize: 24,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
     color: "#000000",
     fontWeight: "bold",
   },
@@ -88,7 +106,7 @@ export const lightTheme = {
   carListText: {
     fontSize: 16,
     marginBottom: 5,
-    color: "#8b8b90",
+    color: "#858593w",
   },
   imageText: {
     fontSize: 16,
@@ -105,15 +123,6 @@ export const lightTheme = {
   loadingThrobber: {
     marginTop: 10,
     marginBottom: 10,
-  },
-  card: {
-    marginTop: 10,
-    marginBottom: 10,
-    padding: 10,
-    //borderWidth: 0.8,
-    //borderColor: "#313134",
-    borderRadius: 25,
-    backgroundColor: "#ffffff",
   },
   carImage: {
     width: "100%",
@@ -156,7 +165,7 @@ export const lightTheme = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#e3e3e8",
+    backgroundColor: "#eeeef0",
     padding: 10,
     borderRadius: 150,
     marginBottom: 10,
@@ -186,7 +195,7 @@ export const lightTheme = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#e3e3e8",
+    backgroundColor: "#eeeef0",
     padding: 10,
     borderRadius: 100,
     marginBottom: 10,
@@ -196,7 +205,7 @@ export const lightTheme = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#e3e3e8",
+    backgroundColor: "#eeeef0",
     padding: 10,
     borderRadius: 150,
     marginBottom: 10,

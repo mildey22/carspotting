@@ -154,11 +154,11 @@ export default function CarList() {
                     <Text style={theme.carText}>
                       {item.make} {item.model}{" "}
                     </Text>
-                    <Text style={theme.text}>
+                    <Text style={theme.carListText}>
                       {item.generation ? `(${item.generation})` : ""}
                     </Text>
                   </Text>
-                  <Text style={theme.text}>
+                  <Text style={theme.carListText}>
                     {t("displayColor")}
                     {item.color}
                   </Text>

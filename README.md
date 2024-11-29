@@ -23,6 +23,7 @@
 - Ability to view the car's details after saving, as well as the photo and location
 - Hand-translated app-wide language support for select languages
 - Modern and fine tuned UI designed with a native iOS experience in-mind
+- Option to use either light or dark mode (default)
 
 ## Technologies
 

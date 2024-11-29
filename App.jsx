@@ -23,7 +23,7 @@ function AppContent() {
 
   return (
     <>
-      <StatusBar style={theme.StatusBarStyle} />
+      <StatusBar style={theme.statusBarStyle} />
       <NavigationContainer>
         <Tab.Navigator
           screenOptions={({ route }) => ({
@@ -31,7 +31,7 @@ function AppContent() {
               let iconName;
 
               if (route.name === newCarLabel) {
-                iconName = focused ? "add" : "add";
+                iconName = focused ? "add-circle" : "add-circle-outline";
               } else if (route.name === spottedLabel) {
                 iconName = focused ? "car-sport" : "car-sport-outline";
               } else if (route.name === settingsLabel) {
@@ -44,7 +44,7 @@ function AppContent() {
             tabBarInactiveTintColor: theme.tabBarInactiveTintColor,
             tabBarStyle: {
               backgroundColor: theme.tabBarBackgroundColor, 
-              borderTopWidth: 0,
+              borderTopWidth: theme.tabBarBorderWidth,
             },
             headerStyle: {
               backgroundColor: theme.headerBackgroundColor,

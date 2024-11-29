@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, Switch } from "react-native";
+import { ScrollView, Text, Switch, View } from "react-native";
 import i18n from "../i18n";
 import { Picker } from "@react-native-picker/picker";
 import { useTheme, ThemeProvider } from "../context/ThemeContext";
-import styles from "../styles/SettingsStyles";
 import { lightTheme } from "../themes/lightTheme";
 
 export default function Settings() {
@@ -26,12 +25,13 @@ export default function Settings() {
   return (
     <ThemeProvider>
     <ScrollView
-      contentContainerStyle={styles.container}
+      contentContainerStyle={theme.settingsContainer}
       style={{ backgroundColor: theme.backgroundColor }}
     >
        <Text style={theme.settingsTitle}>
         {i18n.t("language")}
       </Text>
+      <View style={theme.settingsCard}>
       <Picker
         selectedValue={selectedLanguage}
         onValueChange={handleLanguageChange}
@@ -44,16 +44,18 @@ export default function Settings() {
         <Picker.Item label="Français" value="fr" />
         <Picker.Item label="Magyar" value="hu" />
       </Picker>
-
+      </View>
       <Text style={theme.settingsTitle}>
         {i18n.t("appearance")}
       </Text>
+      <View style={theme.settingsCard}>
       <Switch
         value={theme === lightTheme}
         onValueChange={handleThemeToggle} 
         thumbColor={theme.thumbColor} 
-        trackColor={theme.trackColor} 
+        ios_backgroundColor={theme.trackColor} 
       />
+      </View>
     </ScrollView>
     </ThemeProvider>
   );

@@ -1,8 +1,9 @@
 export const darkTheme = {
   tabBarActiveTintColor: "#3b82f7",
-  tabBarInactiveTintColor: "#979797",
-  tabBarBackgroundColor: "#212124",
-  headerBackgroundColor: "#212124",
+  tabBarInactiveTintColor: "#818181",
+  tabBarBackgroundColor: "#1c1c1e",
+  tabBarBorderWidth: 0,
+  headerBackgroundColor: "#1c1c1e",
   headerTextColor: "#ffffff",
   statusBarStyle: "light",
   backgroundColor: "#000000",
@@ -23,6 +24,8 @@ export const darkTheme = {
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
+    alignSelf: "center",
+    width: "90%",
     backgroundColor: "#1c1c1e",
     marginBottom: 10,
     marginTop: 10,
@@ -31,7 +34,6 @@ export const darkTheme = {
     height: 40,
   },
   settingsContainer: {
-    flexGrow: 1,
     backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
@@ -56,6 +58,24 @@ export const darkTheme = {
     width: "100%",
     height: 300,
     marginBottom: 10,
+  },
+  card: {
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 0.8,
+    borderColor: "#313134",
+    borderRadius: 25,
+    backgroundColor: "#000000",
+  },
+  settingsCard: {
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+    width: "90%",
+    alignItems: "center",
+    borderRadius: 10,
+    backgroundColor: "#1c1c1e",
   },
   carListMap: {
     width: "100%",
@@ -89,6 +109,7 @@ export const darkTheme = {
     fontSize: 16,
     marginBottom: 5,
     color: "#8b8b90",
+    fontWeight: "bold",
   },
   imageText: {
     fontSize: 16,
@@ -105,15 +126,6 @@ export const darkTheme = {
   loadingThrobber: {
     marginTop: 10,
     marginBottom: 10,
-  },
-  card: {
-    marginTop: 10,
-    marginBottom: 10,
-    padding: 10,
-    borderWidth: 0.8,
-    borderColor: "#313134",
-    borderRadius: 25,
-    backgroundColor: "#000000",
   },
   carImage: {
     width: "100%",
