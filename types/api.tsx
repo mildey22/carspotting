@@ -8,4 +8,5 @@ export interface ICar {
     latitude: number;
     longitude: number;
   };
+  userId?: string;
 }

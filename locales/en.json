@@ -2,18 +2,22 @@
   "newCar": "New car",
   "spotted": "Spotted",
   "settings": "Settings",
+  "login": "Account",
 
   "language": "Language",
   "appearance": "Appearance",
 
   "whatDidYouSpot": "What did you spot today? 👀",
   "noCarsFound": "No cars found! Time to go spotting? 👀",
+  "loginOrRegister": "Login or register",
 
   "make": "Make",
   "model": "Model",
   "generation": "Generation",
   "color": "Color (required)",
   "search": "Search",
+  "email": "Email",
+  "password": "Password",
 
   "confirmRemove": "Confirm remove",
   "error": "Error",
@@ -27,6 +31,7 @@
   "errorSavingCar": "Error saving car: {{errorMessage}}",
   "errorRemovingCarOrImage": "Error removing car or photo: {{errorMessage}}",
   "colorRequired": "Fill in at least the color.",
+  "loginRequired":"You must be logged in to save a car.",
 
   "imageFullSize": "Tap photo to view full size.",
   "displayColor": "Color: ",
@@ -41,5 +46,7 @@
   "hidePhoto": "Hide photo",
   "viewPhoto": "Show photo",
   "hideLocation": "Hide location",
-  "viewLocation": "Show location"
+  "viewLocation": "Show location",
+  "loginButton": "Login",
+  "registerButton": "Register"
 }

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import AddCar from "./screens/AddCar";
 import CarList from "./screens/CarList";
 import Settings from "./screens/Settings";
+import Login from "./screens/Login";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
 
 const Tab = createBottomTabNavigator();
@@ -20,6 +21,7 @@ function AppContent() {
   const newCarLabel = t("newCar");
   const spottedLabel = t("spotted");
   const settingsLabel = t("settings");
+  const loginLabel = t("login");
 
   return (
     <>
@@ -36,6 +38,9 @@ function AppContent() {
                 iconName = focused ? "car-sport" : "car-sport-outline";
               } else if (route.name === settingsLabel) {
                 iconName = focused ? "settings" : "settings-outline";
+              }
+              else if (route.name === loginLabel) {
+                iconName = focused ? "person-circle" : "person-circle-outline";
               }
 
               return <Ionicons name={iconName} size={size} color={color} />;
@@ -54,6 +59,7 @@ function AppContent() {
         >
           <Tab.Screen name={newCarLabel} component={AddCar} />
           <Tab.Screen name={spottedLabel} component={CarList} />
+          <Tab.Screen name={loginLabel} component={Login} />
           <Tab.Screen name={settingsLabel} component={Settings} />
         </Tab.Navigator>
       </NavigationContainer>

@@ -21,6 +21,7 @@ import { ThemeProvider, useTheme } from "../context/ThemeContext";
 
 import { getDatabase, ref, onValue, remove } from "firebase/database";
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
 export default function CarList() {
   const [cars, setCars] = useState([]);
@@ -33,22 +34,27 @@ export default function CarList() {
   const { t } = useTranslation();
   const { theme } = useTheme();
 
-  useEffect(() => {
-    const carsRef = ref(database, "cars/");
-    onValue(carsRef, (snapshot) => {
-      const data = snapshot.val() as Record<string, ICar>;
-      if (data) {
-        const carsArray = Object.entries(data).map(([key, value]) => ({
-          key,
-          ...value,
-        }));
-        setCars(carsArray);
-      } else {
-        setCars([]);
-      }
-      setLoading(false);
-    });
-  }, [database]);
+useEffect(() => {
+  const auth = getAuth(app);
+  const user = auth.currentUser;
+
+  if (!user) return;
+
+  const carsRef = ref(database, "cars/");
+  onValue(carsRef, (snapshot) => {
+    const data = snapshot.val() as Record<string, ICar>;
+    if (data) {
+    const userCars = Object.entries(data || {}).filter(
+      ([, car]) => car.userId === user.uid
+    );
+    setCars(userCars.map(([key, value]) => ({ key, ...value })));
+  } else {
+    setCars([]);
+  }
+  setLoading(false);
+  });
+}, []);
+
 
   // Search filter
   const filteredCars = cars.filter((car) =>

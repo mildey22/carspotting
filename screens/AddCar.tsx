@@ -28,6 +28,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
 // Plan was to seperate the different functions into their own files but couldn't unfortunately get this to work. Looks a bit messy right now but it is what it is.
 
@@ -174,13 +175,23 @@ export default function AddCar() {
 
   // Save car details to the database
   const handleSave = async () => {
-    if (!car.color) {
+    const auth = getAuth(app);
+  const user = auth.currentUser;
+
+  if (!user) {
+    Alert.alert(t("error"), t("loginRequired"));
+    return;
+  }
+
+    else if (!car.color) {
       Alert.alert(t("error"), t("colorRequired"));
       return;
     }
 
+    const carWithUserId = { ...car, userId: user.uid };
+
     try {
-      await push(ref(database, "cars/"), car);
+      await push(ref(database, "cars/"), carWithUserId);
       Alert.alert(t("success"), t("carSaved"));
       Keyboard.dismiss();
       setCar({
