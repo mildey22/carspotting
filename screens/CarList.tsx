@@ -119,8 +119,7 @@ export default function CarList() {
       {loading ? (
         <ActivityIndicator
           size="large"
-          color={theme.activityIndicatorColor}
-          style={theme.bigThrobber}
+          style={theme.carListLoadingThrobber}
         />
       ) : (
         <>
@@ -218,8 +217,7 @@ export default function CarList() {
                     <View>
                       {loadingImages[item.key] && (
                         <ActivityIndicator
-                          size="small"
-                          color="#007aff"
+                          size="large"
                           style={theme.loadingThrobber}
                         />
                       )}

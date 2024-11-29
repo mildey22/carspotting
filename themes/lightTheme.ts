@@ -121,8 +121,11 @@ export const lightTheme = {
     color: "#000000",
   },
   loadingThrobber: {
-    marginTop: 10,
-    marginBottom: 10,
+    position: 'absolute',
+    top: '45%',
+    left: '50%',
+    marginTop: -15,
+    marginLeft: -15, 
   },
   carImage: {
     width: "100%",
@@ -136,7 +139,7 @@ export const lightTheme = {
   },
   carListLoadingThrobber: {
     alignSelf: "center",
-    marginVertical: 10,
+    marginVertical: 250,
   },
   picker: {
     width: "80%",
