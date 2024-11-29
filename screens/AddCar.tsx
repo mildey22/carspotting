@@ -306,7 +306,7 @@ export default function AddCar() {
           <ActivityIndicator
             size="large"
             color={theme.activityIndicatorColor}
-            style={theme.loadingThrobber}
+            style={theme.imageThrobber}
           />
         )}
 
@@ -322,8 +322,7 @@ export default function AddCar() {
         {isDeleting && (
           <ActivityIndicator
             size="large"
-            color="#0000ff"
-            style={theme.loadingThrobber}
+            style={theme.imageThrobber}
           />
         )}
 

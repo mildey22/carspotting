@@ -123,6 +123,15 @@ export const darkTheme = {
     fontWeight: "bold",
     color: "#FFFFFF",
   },
+  carImage: {
+    width: "100%",
+    height: 300,
+    marginVertical: 10,
+  },
+  carListLoadingThrobber: {
+    alignSelf: "center",
+    marginVertical: 250,
+  },
   loadingThrobber: {
     position: 'absolute',
     top: '50%',
@@ -130,19 +139,8 @@ export const darkTheme = {
     marginTop: -15,
     marginLeft: -15, 
   },
-  carImage: {
-    width: "100%",
-    height: 300,
-    marginVertical: 10,
-  },
-  bigThrobber: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  carListLoadingThrobber: {
-    alignSelf: "center",
-    marginVertical: 250,
+  imageThrobber: {
+    marginTop: 10,
   },
   picker: {
     width: "80%",
