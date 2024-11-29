@@ -21,6 +21,7 @@
 - Ability to add the details of the car as well as a photo and a location
 - Data is uploaded to Firebase realtime database and images to Firebase storage
 - Ability to view the car's details after saving, as well as the photo and location
+- Ability to search and filter cars
 - Hand-translated app-wide language support for select languages
 - Modern and fine tuned UI designed with a native iOS experience in-mind
 - Option to use either light or dark mode (default)

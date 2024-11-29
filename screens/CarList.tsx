@@ -52,7 +52,7 @@ export default function CarList() {
 
   // Search filter
   const filteredCars = cars.filter((car) =>
-    `${car.make} ${car.model}`.toLowerCase().includes(searchQuery.toLowerCase())
+    `${car.make} ${car.model} ${car.color} ${car.generation}`.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Clear search bar
