@@ -42,7 +42,7 @@ export default function Settings() {
         <Picker.Item label="Suomi" value="fi" />
         <Picker.Item label="Svenska" value="se" />
         <Picker.Item label="Français" value="fr" />
-        <Picker.Item label="Magyar" value="hu" />
+        <Picker.Item label="Magyar (TBA)" value="hu" />
       </Picker>
       </View>
       <Text style={theme.settingsTitle}>

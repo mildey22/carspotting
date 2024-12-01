@@ -52,7 +52,9 @@ export default function CarList() {
 
   // Search filter
   const filteredCars = cars.filter((car) =>
-    `${car.make} ${car.model} ${car.color} ${car.generation}`.toLowerCase().includes(searchQuery.toLowerCase())
+    `${car.make} ${car.model} ${car.color} ${car.generation}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
   );
 
   // Clear search bar
@@ -115,77 +117,100 @@ export default function CarList() {
 
   return (
     <ThemeProvider>
-    <View style={theme.carListContainer}>
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          style={theme.carListLoadingThrobber}
-        />
-      ) : (
-        <>
-          <View style={theme.searchContainer}>
-            <Ionicons name="search" size={19} color={theme.searchIconColor} style={theme.searchIcon}/>
-            <TextInput
-              style={theme.searchInput}
-              placeholder={t("search")}
-              placeholderTextColor={theme.placeholderTextColor}
-              value={searchQuery}
-              onChangeText={(text) => setSearchQuery(text)}
-            />
-            {/* If search bar isn't empty, render the clear search bar button */}
-            {searchQuery.length > 0 && (
-              <TouchableOpacity
-                onPress={clearSearchQuery}
-                style={theme.clearButton}
-              >
-                <Ionicons name="close-circle" size={21} color={theme.closeIconColor} />
-              </TouchableOpacity>
-            )}
-          </View>
-          {filteredCars.length === 0 ? (
-            <Text style={theme.emptyListText}>{t("noCarsFound")}</Text>
-          ) : (
-            <FlatList
-              data={filteredCars}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item, index }) => (
-                <View style={theme.card}>
-                  <Text>
-                    <Text style={theme.carText}>
-                      {item.make} {item.model}{" "}
+      <View style={theme.carListContainer}>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            style={theme.carListLoadingThrobber}
+          />
+        ) : (
+          <>
+            <View style={theme.searchContainer}>
+              <Ionicons
+                name="search"
+                size={19}
+                color={theme.searchIconColor}
+                style={theme.searchIcon}
+              />
+              <TextInput
+                style={theme.searchInput}
+                placeholder={t("search")}
+                placeholderTextColor={theme.placeholderTextColor}
+                value={searchQuery}
+                onChangeText={(text) => setSearchQuery(text)}
+              />
+              {/* If search bar isn't empty, render the clear search bar button */}
+              {searchQuery.length > 0 && (
+                <TouchableOpacity
+                  onPress={clearSearchQuery}
+                  style={theme.clearButton}
+                >
+                  <Ionicons
+                    name="close-circle"
+                    size={21}
+                    color={theme.closeIconColor}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
+            {filteredCars.length === 0 ? (
+              <Text style={theme.emptyListText}>{t("noCarsFound")}</Text>
+            ) : (
+              <FlatList
+                data={filteredCars}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item, index }) => (
+                  <View style={theme.card}>
+                    <Text>
+                      <Text style={theme.carText}>
+                        {item.make || item.model
+                          ? `${item.make ? item.make : "N/A"} ${
+                              item.model ? item.model : "N/A"
+                            }`
+                          : "N/A"}
+                      </Text>
+                      <Text style={theme.carListText}>
+                        {item.generation ? ` (${item.generation})` : " (N/A)"}
+                      </Text>
                     </Text>
                     <Text style={theme.carListText}>
-                      {item.generation ? `(${item.generation})` : ""}
+                      {t("displayColor")}
+                      {item.color}
                     </Text>
-                  </Text>
-                  <Text style={theme.carListText}>
-                    {t("displayColor")}
-                    {item.color}
-                  </Text>
-                  <View style={theme.buttonRow}>
-                    {item.image && (
+                    <View style={theme.buttonRow}>
                       <TouchableOpacity
                         style={theme.carListButton}
                         onPress={() => toggleImageVisibility(item.key)}
+                        disabled={!item.image}
                       >
                         <Ionicons
                           name={
                             visibleImages[item.key] ? "close" : "image-outline"
                           }
                           size={20}
-                          color="#3b82f7"
+                          color={
+                            !item.image
+                              ? theme.disabledIconColor
+                              : theme.iconColor
+                          }
                         />
-                        <Text style={theme.buttonText}>
+                        <Text
+                          style={
+                            !item.image
+                              ? theme.disabledButtonText
+                              : theme.buttonText
+                          }
+                        >
                           {visibleImages[item.key]
                             ? t("hidePhoto")
                             : t("viewPhoto")}
                         </Text>
                       </TouchableOpacity>
-                    )}
-                    {item.location?.latitude && item.location?.longitude && (
+
                       <TouchableOpacity
                         style={theme.carListButton}
                         onPress={() => toggleMap(index)}
+                        disabled={!item.location}
                       >
                         <Ionicons
                           name={
@@ -194,84 +219,95 @@ export default function CarList() {
                               : "location-outline"
                           }
                           size={20}
-                          color="#3b82f7"
+                          color={
+                            !item.location
+                              ? theme.disabledIconColor
+                              : theme.iconColor
+                          }
                         />
-                        <Text style={theme.buttonText}>
+                        <Text
+                          style={
+                            !item.location
+                              ? theme.disabledButtonText
+                              : theme.buttonText
+                          }
+                        >
                           {expandedIndex === index
                             ? t("hideLocation")
                             : t("viewLocation")}
                         </Text>
                       </TouchableOpacity>
-                    )}
-                    <TouchableOpacity
-                      style={theme.deleteCarButton}
-                      onPress={() => deleteCar(item.key, item.image)}
-                    >
-                      <Ionicons
-                        name="trash-outline"
-                        size={20}
-                        color="#ff3b30"
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  {visibleImages[item.key] && item.image && (
-                    <View>
-                      {loadingImages[item.key] && (
-                        <ActivityIndicator
-                          size="large"
-                          style={theme.loadingThrobber}
-                        />
-                      )}
                       <TouchableOpacity
-                        onPress={() => handleImagePress(item.image)}
+                        style={theme.deleteCarButton}
+                        onPress={() => deleteCar(item.key, item.image)}
                       >
-                        <Image
-                          source={{ uri: item.image }}
-                          style={theme.carImage}
-                          resizeMode="contain"
-                          onLoadStart={() =>
-                            setLoadingImages((prev) => ({
-                              ...prev,
-                              [item.key]: true,
-                            }))
-                          }
-                          onLoadEnd={() =>
-                            setLoadingImages((prev) => ({
-                              ...prev,
-                              [item.key]: false,
-                            }))
-                          }
+                        <Ionicons
+                          name="trash-outline"
+                          size={20}
+                          color="#ff3b30"
                         />
                       </TouchableOpacity>
-                      <Text style={theme.imageText}>{t("imageFullSize")}</Text>
                     </View>
-                  )}
-                  {expandedIndex === index && item.location && (
-                    <MapView
-                      style={theme.carListMap}
-                      initialRegion={{
-                        latitude: item.location.latitude,
-                        longitude: item.location.longitude,
-                        latitudeDelta: 0.01,
-                        longitudeDelta: 0.01,
-                      }}
-                    >
-                      <Marker
-                        coordinate={{
+                    {visibleImages[item.key] && item.image && (
+                      <View>
+                        {loadingImages[item.key] && (
+                          <ActivityIndicator
+                            size="large"
+                            style={theme.loadingThrobber}
+                          />
+                        )}
+                        <TouchableOpacity
+                          onPress={() => handleImagePress(item.image)}
+                        >
+                          <Image
+                            source={{ uri: item.image }}
+                            style={theme.carImage}
+                            resizeMode="contain"
+                            onLoadStart={() =>
+                              setLoadingImages((prev) => ({
+                                ...prev,
+                                [item.key]: true,
+                              }))
+                            }
+                            onLoadEnd={() =>
+                              setLoadingImages((prev) => ({
+                                ...prev,
+                                [item.key]: false,
+                              }))
+                            }
+                          />
+                        </TouchableOpacity>
+                        <Text style={theme.imageText}>
+                          {t("imageFullSize")}
+                        </Text>
+                      </View>
+                    )}
+                    {expandedIndex === index && item.location && (
+                      <MapView
+                        style={theme.carListMap}
+                        initialRegion={{
                           latitude: item.location.latitude,
                           longitude: item.location.longitude,
+                          latitudeDelta: 0.01,
+                          longitudeDelta: 0.01,
                         }}
-                        title={`${item.make} ${item.model}`}
-                      />
-                    </MapView>
-                  )}
-                </View>
-              )}
-            />
-          )}
-        </>
-      )}
-    </View>
+                      >
+                        <Marker
+                          coordinate={{
+                            latitude: item.location.latitude,
+                            longitude: item.location.longitude,
+                          }}
+                          title={`${item.make} ${item.model}`}
+                        />
+                      </MapView>
+                    )}
+                  </View>
+                )}
+              />
+            )}
+          </>
+        )}
+      </View>
     </ThemeProvider>
   );
 }

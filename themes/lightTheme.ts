@@ -13,6 +13,8 @@ export const lightTheme = {
   closeIconColor: "#7f7f84",
   searchIconColor: "#98989e",
   placeholderTextColor: "#7f7f84",
+  iconColor: "#007afe",
+  disabledIconColor: "#98989e",
   
   searchIcon: {
     marginRight: 5,
@@ -241,5 +243,8 @@ export const lightTheme = {
   },
   disabledButtonText: {
     color: "#98989e",
+    fontWeight: "bold",
+    marginLeft: 7,
+    fontSize: 16,
   },
 };

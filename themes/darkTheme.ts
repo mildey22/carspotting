@@ -13,6 +13,8 @@ export const darkTheme = {
   closeIconColor: "#98989e",
   searchIconColor: "#98979e",
   placeholderTextColor: "#98989e",
+  iconColor: "#3b82f7",
+  disabledIconColor: "#818181",
 
   searchIcon: {
     marginRight: 5,
@@ -204,7 +206,7 @@ export const darkTheme = {
     marginTop: 20,
   },
   saveButtonText: {
-    color: "#007aff",
+    color: "#3b82f7",
     fontSize: 16,
     fontWeight: "bold",
     marginLeft: 10,
@@ -243,5 +245,8 @@ export const darkTheme = {
   },
   disabledButtonText: {
     color: "#818181",
+    fontWeight: "bold",
+    marginLeft: 7,
+    fontSize: 16,
   },
 };

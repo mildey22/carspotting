@@ -292,7 +292,7 @@ export default function AddCar() {
               <Ionicons
                 name={"images-outline"}
                 size={20}
-                color={isUploading ? "#818181" : "#007aff"}
+                color={isUploading ? theme.disabledIconColor : theme.iconColor}
               />
               <Text
                 style={[
@@ -315,7 +315,7 @@ export default function AddCar() {
               <Ionicons
                 name="trash-outline"
                 size={20}
-                color={isDeleting ? "#818181" : "#ff3b30"}
+                color={isDeleting ? theme.disabledIconColor : "#ff3b30"}
               />
               <Text
                 style={[
@@ -334,7 +334,7 @@ export default function AddCar() {
             <Ionicons
               name={showMap ? "close" : "location-outline"}
               size={20}
-              color="#3b82f7"
+              color={theme.iconColor}
             />
             <Text style={theme.buttonText}>
               {showMap ? t("closeMap") : t("addLocation")}
@@ -411,7 +411,7 @@ export default function AddCar() {
             name="download-outline"
             size={20}
             color={
-              isUploading || isDeleting || !car.color ? "#818181" : "#007aff"
+              isUploading || isDeleting || !car.color ? theme.disabledIconColor : theme.iconColor
             }
           />
           <Text
