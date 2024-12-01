@@ -12,7 +12,7 @@ i18n.use(initReactI18next).init({
     en: { translation: en },
     fi: { translation: fi },
     se: { translation: se },
-    //fr: { translation: fr },
+    fr: { translation: fr },
     //hu: { translation: hu },
   },
   fallbackLng: "en",
