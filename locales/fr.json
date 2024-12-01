@@ -40,7 +40,7 @@
     "saveCar": "Sauvegarder voiture",
     "hidePhoto": "Cacher photo",
     "viewPhoto": "Montrer photo",
-    "hideLocation": "Cacher location",
-    "viewLocation": "Montrer location"
+    "hideLocation": "Localisation", 
+    "viewLocation": "Localisation"
   }
   
